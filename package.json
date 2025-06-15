@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "cloudflare": {
     "label": "Hono App Boilerplate",
-    "products": ["Workers"],
+    "products": [
+      "Workers"
+    ],
     "categories": [],
     "icon_urls": [
       "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/5ca0ca32-e897-4699-d4c1-6b680512f000/public"
@@ -25,6 +27,7 @@
     "@types/react-dom": "19.0.4",
     "@vitejs/plugin-react": "4.4.1",
     "globals": "15.15.0",
+    "lefthook": "^1.11.13",
     "typescript": "5.8.3",
     "vite": "6.3.5",
     "wrangler": "^4.20.0"
