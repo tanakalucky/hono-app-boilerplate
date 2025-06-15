@@ -1,0 +1,40 @@
+name: Deploy action
+description: Deploy to Cloudflare pages
+
+inputs:
+  cloudflare-api-token:
+    description: Cloudflare API token
+    required: true
+
+  cloudflare-account-id:
+    description: Cloudflare account ID
+    required: true
+
+  branch-name:
+    description: "Branch name for deployment"
+    required: false
+    default: "main"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "24"
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+      shell: bash
+
+    - name: Build
+      run: npm run build
+      shell: bash
+
+    - name: Deploy
+      uses: cloudflare/wrangler-action@v3
+      with:
+        apiToken: ${{ inputs.cloudflare-api-token }}
+        accountId: ${{ inputs.cloudflare-account-id }}
+        command: pages deploy --branch ${{ inputs.branch-name }}

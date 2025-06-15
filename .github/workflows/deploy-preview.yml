@@ -1,0 +1,23 @@
+name: Deploy Preview
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy pages
+        uses: ./.github/actions/deploy
+        with:
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          branch-name: preview
