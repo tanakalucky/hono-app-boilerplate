@@ -1,0 +1,9 @@
+{
+  "service": "app",
+  "dockerComposeFile": "docker-compose.yml",
+  "forwardPorts": [5173],
+  "workspaceFolder": "/app",
+  "containerEnv": {
+    "SHELL": "/bin/bash"
+  }
+}
