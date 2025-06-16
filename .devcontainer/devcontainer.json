@@ -1,9 +1,17 @@
 {
-  "service": "app",
-  "dockerComposeFile": "docker-compose.yml",
+  "name": "hono-app-boilerplate",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "forwardPorts": [5173],
   "workspaceFolder": "/app",
-  "containerEnv": {
-    "SHELL": "/bin/bash"
-  }
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+      "packages": "git,vim"
+    },
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "runArgs": ["--init"]
 }
