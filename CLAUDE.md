@@ -9,7 +9,7 @@ Claude Codeはこのリポジトリで作業する際、**日本語で回答**�
 ## Project Architecture
 
 This is a full-stack React application that runs on Cloudflare Workers, combining:
-- **Frontend**: React 19 + Vite with Tailwind CSS and shadcn/ui components
+- **Frontend**: React 19 + Vite with Tailwind CSS
 - **Backend**: Hono.js framework running on Cloudflare Workers
 - **Routing**: Wouter for client-side routing
 - **State Management**: TanStack Query for server state
@@ -18,7 +18,6 @@ This is a full-stack React application that runs on Cloudflare Workers, combinin
 ### Key Structure
 - `src/react-app/` - React frontend application
 - `src/worker/` - Hono backend API running on Cloudflare Workers
-- `src/components/ui/` - shadcn/ui components (New York style)
 - `src/lib/` - Shared utilities
 
 ### Dual Environment Setup
@@ -71,8 +70,6 @@ Pre-commit hooks via lefthook automatically run Biome checks on staged files.
 ## Styling Guidelines
 
 - Uses Tailwind CSS v4 (not v3) with the new Vite plugin
-- shadcn/ui components configured with New York style
-- CSS variables enabled for theming
 - Path alias `@/` maps to `src/`
 
 ## Worker Configuration
