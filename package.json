@@ -23,14 +23,20 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@cloudflare/vite-plugin": "1.2.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^22.15.19",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "@vitejs/plugin-react": "4.4.1",
+    "@vitest/ui": "^3.2.3",
     "globals": "15.15.0",
+    "jsdom": "^26.1.0",
     "lefthook": "^1.11.13",
     "typescript": "5.8.3",
     "vite": "6.3.5",
+    "vitest": "^3.2.3",
     "wrangler": "^4.20.0"
   },
   "scripts": {
@@ -40,6 +46,9 @@
     "deploy": "wrangler deploy",
     "dev": "vite",
     "preview": "npm run build && vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
     "lint": "biome lint --write",
     "format": "biome format --write",
     "biome-check": "biome check --write"
