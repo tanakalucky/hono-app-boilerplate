@@ -23,7 +23,7 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const button = screen.getByRole('button', { name: /count is/i });
+    const button = screen.getByRole('button', { name: /increment/i });
     expect(button).toHaveTextContent('count is 0');
 
     await user.click(button);
@@ -39,7 +39,7 @@ describe('App', () => {
 
     render(<App />);
 
-    const apiButton = screen.getByRole('button', { name: /name from api/i });
+    const apiButton = screen.getByRole('button', { name: /get name/i });
     expect(apiButton).toHaveTextContent('Name from API is: unknown');
 
     await user.click(apiButton);
