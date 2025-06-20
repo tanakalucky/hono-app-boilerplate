@@ -13,6 +13,7 @@
     "publish": true
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query": "^5.80.7",
     "hono": "4.7.7",
     "react": "19.0.0",
