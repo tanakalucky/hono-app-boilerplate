@@ -105,7 +105,6 @@ Desktop.ini
 # Cloudflare Workers
 .wrangler
 .dev.vars*
-worker-configuration.d.ts
 
 # Test results
 test-results/
