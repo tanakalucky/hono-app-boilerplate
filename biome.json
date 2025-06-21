@@ -28,17 +28,5 @@
       "quoteStyle": "single",
       "jsxQuoteStyle": "single"
     }
-  },
-  "overrides": [
-    {
-      "include": ["app/components/shadcn/ui/**"],
-      "linter": {
-        "rules": {
-          "nursery": {
-            "useSortedClasses": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
