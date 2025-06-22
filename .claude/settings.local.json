@@ -6,10 +6,11 @@
       "Bash(npm run test:run:*)",
       "Bash(npm run build:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   },
-  "enabledMcpjsonServers": ["cloudflare-document"],
-  "enableAllProjectMcpServers": true
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": ["cloudflare-document"]
 }

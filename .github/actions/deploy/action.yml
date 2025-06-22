@@ -1,5 +1,5 @@
 name: Deploy action
-description: Deploy to Cloudflare pages
+description: Deploy to Cloudflare Workers
 
 inputs:
   cloudflare-api-token:
@@ -10,10 +10,10 @@ inputs:
     description: Cloudflare account ID
     required: true
 
-  branch-name:
-    description: "Branch name for deployment"
+  environment:
+    description: "Cloudflare environment for deployment"
     required: false
-    default: "main"
+    default: "production"
 
 runs:
   using: "composite"
@@ -21,7 +21,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: "24"
+        node-version: "22"
         cache: npm
 
     - name: Install dependencies
@@ -37,4 +37,6 @@ runs:
       with:
         apiToken: ${{ inputs.cloudflare-api-token }}
         accountId: ${{ inputs.cloudflare-account-id }}
-        command: pages deploy --branch ${{ inputs.branch-name }}
+        command: deploy
+      env:
+        CLOUDFLARE_ENV: ${{ inputs.environment }}
