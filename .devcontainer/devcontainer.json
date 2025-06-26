@@ -1,17 +1,22 @@
 {
   "name": "hono-app-boilerplate",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "forwardPorts": [5173],
-  "workspaceFolder": "/app",
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "configureZshAsDefaultShell": true
-    },
-    "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-      "packages": "git,vim"
-    },
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TZ": "${localEnv:TZ:Asia/Tokyo}"
+    }
   },
-  "runArgs": ["--init"]
+  "forwardPorts": [5173],
+  "remoteUser": "node",
+  "mounts": [
+    "source=hono-app-boilerplate-bashhistory,target=/commandhistory,type=volume",
+    "source=hono-app-boilerplate-claude-code-config,target=/home/node/.claude,type=volume"
+  ],
+  "remoteEnv": {
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    "CLAUDE_CONFIG_DIR": "/home/node/.claude",
+    "POWERLEVEL9K_DISABLE_GITSTATUS": "true"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+  "workspaceFolder": "/workspace"
 }
