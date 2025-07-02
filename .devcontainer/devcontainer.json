@@ -10,7 +10,8 @@
   "remoteUser": "node",
   "mounts": [
     "source=hono-app-boilerplate-bashhistory,target=/commandhistory,type=volume",
-    "source=hono-app-boilerplate-claude-code-config,target=/home/node/.claude,type=volume"
+    "source=hono-app-boilerplate-claude-code-config,target=/home/node/.claude,type=volume",
+    "source=hono-app-boilerplate-wrangler-config,target=/home/node/.config/.wrangler,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
