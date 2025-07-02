@@ -6,7 +6,7 @@
       "TZ": "${localEnv:TZ:Asia/Tokyo}"
     }
   },
-  "forwardPorts": [5173],
+  "forwardPorts": [5173, 8976],
   "remoteUser": "node",
   "mounts": [
     "source=hono-app-boilerplate-bashhistory,target=/commandhistory,type=volume",
