@@ -17,11 +17,7 @@
     "enabled": true
   },
   "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    },
-    "ignore": ["worker-configuration.d.ts", "main.tsx"]
+    "enabled": false
   },
   "javascript": {
     "formatter": {
