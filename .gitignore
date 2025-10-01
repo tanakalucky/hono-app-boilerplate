@@ -114,3 +114,6 @@ coverage/
 # Vitest
 coverage
 .vitest
+
+# serena
+.serena
