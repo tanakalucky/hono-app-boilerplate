@@ -35,7 +35,7 @@
     "@vitest/ui": "^3.2.3",
     "globals": "16.4.0",
     "jsdom": "^26.1.0",
-    "lefthook": "^1.11.13",
+    "lefthook": "^2.0.0",
     "oxlint": "^1.18.0",
     "typescript": "5.9.3",
     "vite": "npm:rolldown-vite@latest",
