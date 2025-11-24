@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "cloudflare": {
     "label": "Hono App Boilerplate",
-    "products": ["Workers"],
+    "products": [
+      "Workers"
+    ],
     "categories": [],
     "icon_urls": [
       "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/5ca0ca32-e897-4699-d4c1-6b680512f000/public"
@@ -22,7 +24,6 @@
     "wouter": "^3.7.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@cloudflare/vite-plugin": "^1.8.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -36,6 +37,7 @@
     "globals": "16.5.0",
     "jsdom": "^26.1.0",
     "lefthook": "^2.0.0",
+    "oxfmt": "^0.14.0",
     "oxlint": "^1.18.0",
     "typescript": "5.9.3",
     "vite": "npm:rolldown-vite@latest",
@@ -54,8 +56,7 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "lint": "oxlint",
-    "format": "biome format --write",
-    "biome-check": "biome check --write"
+    "format": "oxfmt ."
   },
   "type": "module"
 }
