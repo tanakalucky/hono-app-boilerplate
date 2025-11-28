@@ -5,5 +5,5 @@ pre-commit:
       run: bun oxlint
     format:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: bunx oxfmt {staged_files}
+      run: bun oxfmt {staged_files}
       stage_fixed: true

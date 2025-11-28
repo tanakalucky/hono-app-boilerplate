@@ -6,10 +6,7 @@ interface AsyncState<T> {
   loading: boolean;
 }
 
-export function useAsync<T>(
-  asyncFunction: () => Promise<T>,
-  dependencies: unknown[] = [],
-) {
+export function useAsync<T>(asyncFunction: () => Promise<T>, dependencies: unknown[] = []) {
   const [state, setState] = useState<AsyncState<T>>({
     data: null,
     error: null,

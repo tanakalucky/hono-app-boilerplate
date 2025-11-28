@@ -19,9 +19,7 @@ app.use(
 // API Routes
 app.get('/api/', (c) => c.json({ name: 'Cloudflare', version: '1.0.0' }));
 
-app.get('/api/health', (c) =>
-  c.json({ status: 'ok', timestamp: new Date().toISOString() }),
-);
+app.get('/api/health', (c) => c.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
 // 404 handler for API routes
 app.notFound((c) => {
