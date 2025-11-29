@@ -14,9 +14,7 @@ describe('App', () => {
 
   it('renders the main title', () => {
     render(<App />);
-    expect(
-      screen.getByText('Vite + React + Hono + Cloudflare'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Vite + React + Hono + Cloudflare')).toBeInTheDocument();
   });
 
   it('increments counter when button is clicked', async () => {
@@ -66,8 +64,9 @@ describe('App', () => {
       'href',
       'https://hono.dev/',
     );
-    expect(
-      screen.getByRole('link', { name: /cloudflare logo/i }),
-    ).toHaveAttribute('href', 'https://workers.cloudflare.com/');
+    expect(screen.getByRole('link', { name: /cloudflare logo/i })).toHaveAttribute(
+      'href',
+      'https://workers.cloudflare.com/',
+    );
   });
 });

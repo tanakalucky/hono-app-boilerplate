@@ -23,25 +23,13 @@ function App() {
         <a href='https://hono.dev/' target='_blank' rel='noreferrer'>
           <img src={honoLogo} className='logo cloudflare' alt='Hono logo' />
         </a>
-        <a
-          href='https://workers.cloudflare.com/'
-          target='_blank'
-          rel='noreferrer'
-        >
-          <img
-            src={cloudflareLogo}
-            className='logo cloudflare'
-            alt='Cloudflare logo'
-          />
+        <a href='https://workers.cloudflare.com/' target='_blank' rel='noreferrer'>
+          <img src={cloudflareLogo} className='logo cloudflare' alt='Cloudflare logo' />
         </a>
       </div>
       <h1>Vite + React + Hono + Cloudflare</h1>
       <div className='card'>
-        <button
-          type='button'
-          onClick={() => setCount((count) => count + 1)}
-          aria-label='increment'
-        >
+        <button type='button' onClick={() => setCount((count) => count + 1)} aria-label='increment'>
           count is {count}
         </button>
         <p>

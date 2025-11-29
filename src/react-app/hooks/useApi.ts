@@ -13,10 +13,7 @@ export function useApi<T = unknown>() {
     loading: false,
   });
 
-  const request = async (
-    url: string,
-    options: RequestInit = {},
-  ): Promise<T> => {
+  const request = async (url: string, options: RequestInit = {}): Promise<T> => {
     setState({ data: null, error: null, loading: true });
 
     try {
@@ -36,8 +33,7 @@ export function useApi<T = unknown>() {
       setState({ data, error: null, loading: false });
       return data;
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       setState({ data: null, error: errorMessage, loading: false });
       throw error;
     }
