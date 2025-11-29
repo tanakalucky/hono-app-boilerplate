@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "feature/**"
+      - "renovate/**"
 
 jobs:
   deploy:
@@ -15,9 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Get branch name
+        id: branch
+        run: |
+          # Extract branch name and sanitize it for preview alias
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          # Remove prefix before first / (e.g., feature/, renovate/, bugfix/)
+          BRANCH_NAME=${BRANCH_NAME#*/}
+          # Replace / with -, convert to lowercase, and truncate to 42 characters
+          # (63 char limit - 20 for "hono-app-boilerplate" - 1 for "-")
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-42)
+          echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Deploy
         uses: ./.github/actions/deploy
         with:
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           environment: preview
+          branch-name: ${{ steps.branch.outputs.sanitized }}
