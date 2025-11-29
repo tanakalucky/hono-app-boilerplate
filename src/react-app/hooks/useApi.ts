@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ApiState<T> {
   data: T | null;
@@ -19,7 +19,7 @@ export function useApi<T = unknown>() {
     try {
       const response = await fetch(url, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...options.headers,
         },
         ...options,
@@ -33,24 +33,24 @@ export function useApi<T = unknown>() {
       setState({ data, error: null, loading: false });
       return data;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       setState({ data: null, error: errorMessage, loading: false });
       throw error;
     }
   };
 
-  const get = (url: string) => request(url, { method: 'GET' });
+  const get = (url: string) => request(url, { method: "GET" });
   const post = (url: string, body?: unknown) =>
     request(url, {
-      method: 'POST',
+      method: "POST",
       body: body ? JSON.stringify(body) : undefined,
     });
   const put = (url: string, body?: unknown) =>
     request(url, {
-      method: 'PUT',
+      method: "PUT",
       body: body ? JSON.stringify(body) : undefined,
     });
-  const del = (url: string) => request(url, { method: 'DELETE' });
+  const del = (url: string) => request(url, { method: "DELETE" });
 
   return {
     ...state,

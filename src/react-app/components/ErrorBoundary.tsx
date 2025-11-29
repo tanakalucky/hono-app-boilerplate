@@ -1,4 +1,4 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   render() {
@@ -33,25 +33,25 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div
           style={{
-            padding: '20px',
-            border: '1px solid #ff6b6b',
-            borderRadius: '8px',
-            backgroundColor: '#fff5f5',
-            color: '#c92a2a',
+            padding: "20px",
+            border: "1px solid #ff6b6b",
+            borderRadius: "8px",
+            backgroundColor: "#fff5f5",
+            color: "#c92a2a",
           }}
         >
           <h2>Something went wrong</h2>
           <p>An error occurred while rendering this component.</p>
           {this.state.error && (
-            <details style={{ marginTop: '10px' }}>
+            <details style={{ marginTop: "10px" }}>
               <summary>Error details</summary>
               <pre
                 style={{
-                  marginTop: '10px',
-                  padding: '10px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '4px',
-                  overflow: 'auto',
+                  marginTop: "10px",
+                  padding: "10px",
+                  backgroundColor: "#f8f9fa",
+                  borderRadius: "4px",
+                  overflow: "auto",
                 }}
               >
                 {this.state.error.message}
@@ -59,16 +59,16 @@ export class ErrorBoundary extends Component<Props, State> {
             </details>
           )}
           <button
-            type='button'
+            type="button"
             onClick={() => this.setState({ hasError: false, error: undefined })}
             style={{
-              marginTop: '10px',
-              padding: '8px 16px',
-              backgroundColor: '#ff6b6b',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
+              marginTop: "10px",
+              padding: "8px 16px",
+              backgroundColor: "#ff6b6b",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
             }}
           >
             Try again

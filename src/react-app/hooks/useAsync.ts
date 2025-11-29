@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 interface AsyncState<T> {
   data: T | null;
@@ -22,7 +22,7 @@ export function useAsync<T>(asyncFunction: () => Promise<T>, dependencies: unkno
     } catch (error) {
       setState({
         data: null,
-        error: error instanceof Error ? error : new Error('Unknown error'),
+        error: error instanceof Error ? error : new Error("Unknown error"),
         loading: false,
       });
     }
