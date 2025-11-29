@@ -41,4 +41,4 @@ runs:
       with:
         apiToken: ${{ inputs.cloudflare-api-token }}
         accountId: ${{ inputs.cloudflare-account-id }}
-        command: deploy ${{ inputs.branch-name != '' && format('--name hono-app-boilerplate-{0}', inputs.branch-name) || '' }}
+        command: deploy ${{ inputs.branch-name != '' && format('--name {0}', inputs.branch-name) || '' }}

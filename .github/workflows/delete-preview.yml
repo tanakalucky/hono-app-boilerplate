@@ -15,15 +15,15 @@ jobs:
         run: |
           # Get the branch name from the PR
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          # Replace / with - and convert to lowercase
-          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]')
+          # Replace / with -, convert to lowercase, and truncate to 54 characters
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-54)
           echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
-          echo "Worker name to delete: ${{ github.event.repository.name }}-$SANITIZED_BRANCH"
+          echo "Worker name to delete: $SANITIZED_BRANCH"
 
       - name: Delete Cloudflare Workers preview environment
         run: |
           # Delete the preview worker (worker name is based on branch name)
-          WORKER_NAME="${{ github.event.repository.name }}-${{ steps.branch.outputs.sanitized }}"
+          WORKER_NAME="${{ steps.branch.outputs.sanitized }}"
           curl -X DELETE "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/workers/scripts/$WORKER_NAME?force=true" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json"

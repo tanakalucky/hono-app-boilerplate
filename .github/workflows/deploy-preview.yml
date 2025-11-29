@@ -21,8 +21,8 @@ jobs:
         run: |
           # Extract branch name and sanitize it for worker name
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          # Replace / with - and convert to lowercase
-          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]')
+          # Replace / with -, convert to lowercase, and truncate to 54 characters
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-54)
           echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
 
       - name: Deploy
