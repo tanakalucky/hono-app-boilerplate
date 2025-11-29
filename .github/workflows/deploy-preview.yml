@@ -19,10 +19,13 @@ jobs:
       - name: Get branch name
         id: branch
         run: |
-          # Extract branch name and sanitize it for worker name
+          # Extract branch name and sanitize it for preview alias
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          # Replace / with -, convert to lowercase, and truncate to 54 characters
-          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-54)
+          # Remove prefix before first / (e.g., feature/, renovate/, bugfix/)
+          BRANCH_NAME=${BRANCH_NAME#*/}
+          # Replace / with -, convert to lowercase, and truncate to 42 characters
+          # (63 char limit - 20 for "hono-app-boilerplate" - 1 for "-")
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-42)
           echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
 
       - name: Deploy
