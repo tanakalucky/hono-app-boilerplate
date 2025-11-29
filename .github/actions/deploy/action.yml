@@ -15,6 +15,11 @@ inputs:
     required: false
     default: "production"
 
+  branch-name:
+    description: "Sanitized branch name for preview deployments"
+    required: false
+    default: ""
+
 runs:
   using: "composite"
   steps:
@@ -36,6 +41,4 @@ runs:
       with:
         apiToken: ${{ inputs.cloudflare-api-token }}
         accountId: ${{ inputs.cloudflare-account-id }}
-        command: deploy
-      env:
-        CLOUDFLARE_ENV: ${{ inputs.environment }}
+        command: deploy ${{ inputs.branch-name != '' && format('--name hono-app-boilerplate-{0}', inputs.branch-name) || '' }}

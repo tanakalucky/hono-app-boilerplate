@@ -10,16 +10,22 @@ jobs:
   delete-preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete Cloudflare Pages preview deployments
+      - name: Get branch name and sanitize
+        id: branch
         run: |
-          deployment_ids=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ github.event.repository.name }}/deployments" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            | jq -r --arg DEPLOY_BRANCH "preview" '.result[] | select(.deployment_trigger.metadata.branch == $DEPLOY_BRANCH) | .id')
+          # Get the branch name from the PR
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          # Replace / with - and convert to lowercase
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]')
+          echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
+          echo "Worker name to delete: ${{ github.event.repository.name }}-$SANITIZED_BRANCH"
 
-          for deployment_id in $deployment_ids; do
-            echo "Deleting deployment $deployment_id"
-            curl -s -X DELETE "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/${{ github.event.repository.name }}/deployments/$deployment_id?force=true" \
-              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-              -H "Content-Type: application/json"
-          done
+      - name: Delete Cloudflare Workers preview environment
+        run: |
+          # Delete the preview worker (worker name is based on branch name)
+          WORKER_NAME="${{ github.event.repository.name }}-${{ steps.branch.outputs.sanitized }}"
+          curl -X DELETE "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/workers/scripts/$WORKER_NAME?force=true" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json"
+
+          echo "Deleted preview worker: $WORKER_NAME"

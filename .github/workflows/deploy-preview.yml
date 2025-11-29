@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "feature/**"
+      - "renovate/**"
 
 jobs:
   deploy:
@@ -15,9 +16,19 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Get branch name
+        id: branch
+        run: |
+          # Extract branch name and sanitize it for worker name
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          # Replace / with - and convert to lowercase
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]')
+          echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Deploy
         uses: ./.github/actions/deploy
         with:
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           cloudflare-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           environment: preview
+          branch-name: ${{ steps.branch.outputs.sanitized }}
