@@ -7,14 +7,6 @@
     "context7": {
       "command": "npx",
       "args": ["-y", "@upflare/mcp-context7"]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    },
-    "chrome-devtools": {
-      "command": "npx",
-      "args": ["chrome-devtools-mcp@latest"]
     }
   }
 }
