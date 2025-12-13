@@ -5,5 +5,5 @@ pre-commit:
       run: bun oxlint
     format:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: bun oxfmt {staged_files}
+      run: bun oxfmt {staged_files} --no-error-on-unmatched-pattern
       stage_fixed: true
