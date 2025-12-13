@@ -1,12 +1,26 @@
 {
   "mcpServers": {
-    "serena": {
-      "command": "uvx",
-      "args": ["mcp-server-serena"]
-    },
     "context7": {
-      "command": "npx",
-      "args": ["-y", "@upflare/mcp-context7"]
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["--yes", "@upstash/context7-mcp"],
+      "env": {}
+    },
+    "serena": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena-mcp-server",
+        "--context",
+        "ide-assistant",
+        "--project",
+        "${PWD}",
+        "--enable-web-dashboard",
+        "false"
+      ],
+      "env": {}
     }
   }
 }
