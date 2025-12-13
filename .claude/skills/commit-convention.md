@@ -46,17 +46,11 @@ scopeは省略可能です。
 - **api**: APIエンドポイント関連
 - **routes**: ルーティング関連
 
-### 設定・ツール関連
-- **vite**: Vite設定
-- **tsconfig**: TypeScript設定
-- **oxfmt**: oxfmt（フォーマッター）設定
-- **lefthook**: Git hooksの設定
-- **ci**: CI/CD設定
-
 ### その他
 - **lib**: 共有ライブラリ
 - **test**: テスト関連
 - **config**: 一般的な設定ファイル
+- **ci**: CI/CD設定
 
 ## メッセージの書き方
 
