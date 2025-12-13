@@ -1,6 +1,6 @@
 # コミット規約
 
-このドキュメントは、日本語のConventional Commit形式によるコミットメッセージとブランチ命名規則を定義します。
+このドキュメントは、日本語のConventional Commit形式によるコミットメッセージを定義します。
 
 ## Conventional Commits形式（日本語版）
 
@@ -10,11 +10,7 @@
 type(scope): 日本語のメッセージ
 ```
 
-PR経由のマージの場合は、末尾にPR番号を追加：
-
-```
-type(scope): 日本語のメッセージ (#PR番号)
-```
+scopeは省略可能です。
 
 ## Type（種類）
 
@@ -99,4 +95,3 @@ BREAKING CHANGE: レスポンスの構造が変更されました。
 - **Cloudflare Workers環境**: workerやapi関連の変更はworker/apiスコープを使用
 - **モノレポ構造**: src/react-app/とsrc/worker/の分離を意識したscopeを選択
 - **依存関係更新頻度**: chore(deps)が最も頻繁に使用されるパターン
-- **PR番号**: PR経由のマージ時のみ`(#XX)`を付与、直接コミットでは不要
