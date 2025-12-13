@@ -117,3 +117,7 @@ coverage
 
 # serena
 .serena
+
+# Claude Code
+.claude/settings.local.json
+.claude/plans/
