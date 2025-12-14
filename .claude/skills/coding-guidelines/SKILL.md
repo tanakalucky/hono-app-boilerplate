@@ -1,3 +1,8 @@
+---
+name: coding-guidelines
+description: TypeScriptコーディング規約。命名規約、export/import、型定義の使い分け、禁止事項（any、enum、magic number）などを定義。TypeScriptコードを書く際、レビューする際、リファクタリングする際に使用。
+---
+
 # TypeScript コーディング規約
 
 このドキュメントは、プロジェクトの TypeScript コーディング規約を定義します。ツールで自動化できることは含めず、開発者が判断・実践すべき原則に焦点を当てています。
