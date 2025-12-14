@@ -121,3 +121,7 @@ coverage
 # Claude Code
 .claude/settings.local.json
 .claude/plans/
+
+# AI Workspace (temporary documents)
+.ai-workspace/*/
+!.ai-workspace/README.md
