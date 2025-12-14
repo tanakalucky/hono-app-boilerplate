@@ -1,3 +1,8 @@
+---
+name: commit-convention
+description: Conventional Commits形式（日本語版）によるコミットメッセージガイドライン。日本語でコミットメッセージを書く際やgit commitコマンドを実行する際に使用。type、scope、メッセージの書き方を定義。
+---
+
 # コミット規約
 
 このドキュメントは、日本語のConventional Commit形式によるコミットメッセージを定義します。
@@ -59,7 +64,7 @@ scopeは省略可能です。
 3. **簡潔に**: 50文字以内を目安
 4. **具体的に**: 何をしたのか、何のためかを明確に
 
-### 良い例
+### 例
 - `feat(api): ユーザー認証エンドポイントを追加`
 - `fix(components): ボタンの無限ループバグを修正`
 - `chore(deps): React 19.2.0に更新`
@@ -67,8 +72,3 @@ scopeは省略可能です。
 - `docs: READMEにデプロイ手順を追加`
 - `style(ui): ボタンの余白を調整`
 - `test(components): LoadingSpinnerのテストを追加`
-
-### 悪い例
-- `update` （何を更新したか不明）
-- `fix bug` （どのバグか不明）
-- `add new feature for user authentication and authorization system` （長すぎる、英語）
