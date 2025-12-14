@@ -1,7 +1,15 @@
 ---
 name: requirements-analyzer
 description: 要件定義の壁打ち相手。ユーザーの曖昧なアイデアを対話で深掘りし、実装可能な要件ドキュメントに構造化する。新機能開発の前段階や、アイデアの整理段階で使用。
-tools: read, write, glob, grep, bash
+tools:
+  - mcp__serena__list_dir
+  - mcp__serena__find_file
+  - mcp__serena__search_for_pattern
+  - mcp__serena__get_symbols_overview
+  - mcp__serena__find_symbol
+  - mcp__serena__write_memory
+  - mcp__serena__read_memory
+  - Bash
 model: opus
 ---
 
