@@ -91,6 +91,69 @@ export type { AuthState } from './model/types'
 
 外部からは `index.ts` 経由でのみアクセス可能とし、内部実装を隠蔽します。
 
+#### パフォーマンスに関する考慮事項
+
+バレルファイル（index.ts）を多用すると、大規模プロジェクトでパフォーマンス問題が発生する可能性があります。
+
+##### 問題点
+
+1. **循環参照のリスク**: 同一ディレクトリ内でバレルファイル経由のimportを行うと、循環依存が容易に発生します
+2. **開発サーバーの速度低下**: バレルファイルをimportすると、そのファイル内のすべてのモジュールが同期的に読み込まれ、起動時間が増大します
+3. **ビルド最適化の妨害**: バレルファイルに再エクスポート以外のコードが含まれると、Tree Shakingなどの最適化が効果的に機能しません
+
+##### 推奨される対策
+
+**1. shared レイヤーでの細分化**
+
+`shared/ui` や `shared/lib` では、大きな単一のindex.tsではなく、コンポーネント/ライブラリごとに独立したindex.tsを配置します：
+
+```
+✅ 推奨
+shared/ui/
+├── Button/
+│   ├── Button.tsx
+│   └── index.ts          # Buttonのみをexport
+├── Input/
+│   ├── Input.tsx
+│   └── index.ts          # Inputのみをexport
+└── Dialog/
+    ├── Dialog.tsx
+    └── index.ts          # Dialogのみをexport
+
+❌ 避けるべき
+shared/ui/
+├── Button.tsx
+├── Input.tsx
+├── Dialog.tsx
+└── index.ts              # すべてのコンポーネントをまとめてexport
+```
+
+**2. セグメントレベルのindex.ts削減**
+
+スライスが存在するレイヤー（pages、features、entities）では、セグメント内でのindex.ts作成を避けます：
+
+```typescript
+// ❌ 避けるべき: features/auth/ui/index.ts を作成
+import { LoginForm } from './features/auth/ui'
+
+// ✅ 推奨: スライスのindex.tsから直接export
+// features/auth/index.ts
+export { LoginForm } from './ui/LoginForm'
+export { LogoutButton } from './ui/LogoutButton'
+
+// 使用側
+import { LoginForm } from './features/auth'
+```
+
+**3. プロジェクト規模に応じた構造検討**
+
+非常に大規模なプロジェクト（例: 10,000+ モジュール）では、モノレポ構造への移行を検討します。各パッケージが独立したFSDレイヤー構成を持つことで、依存関係とビルド時間を最適化できます。
+
+**参考資料:**
+
+- [FSD: Public API - Performance considerations](https://feature-sliced.design/docs/reference/public-api#worse-performance-of-bundlers-on-large-projects)
+- [TkDodo: Please Stop Using Barrel Files](https://tkdodo.eu/blog/please-stop-using-barrel-files)
+
 ## セグメント（Segments）
 
 セグメントは技術的性質でコードを分類します。
@@ -239,6 +302,8 @@ src/react-app/
 - [ ] 同一レイヤー内のスライス間で相互参照していないか？
 - [ ] Public API（index.ts）を定義しているか？
 - [ ] すべてのimportはPublic API経由か？
+- [ ] sharedレイヤーでは、コンポーネント/ライブラリごとに独立したindex.tsを使用しているか？
+- [ ] セグメントレベル（例: features/auth/ui/）でのindex.ts作成を避けているか？
 
 ## 参考リンク
 
@@ -246,3 +311,5 @@ src/react-app/
 - [Overview](https://feature-sliced.design/docs/get-started/overview)
 - [Layers Reference](https://feature-sliced.design/docs/reference/layers)
 - [Slices & Segments](https://feature-sliced.design/docs/reference/slices-segments)
+- [FSD: Public API - Performance considerations](https://feature-sliced.design/docs/reference/public-api#worse-performance-of-bundlers-on-large-projects)
+- [TkDodo: Please Stop Using Barrel Files](https://tkdodo.eu/blog/please-stop-using-barrel-files)
