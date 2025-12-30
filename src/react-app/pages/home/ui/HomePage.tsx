@@ -77,7 +77,8 @@ export function HomePage() {
           onClick={() => {
             fetch("/api/")
               .then((res) => res.json() as Promise<{ name: string }>)
-              .then((data) => setName(data.name));
+              .then((data) => setName(data.name))
+              .catch((error) => console.error(error));
           }}
           aria-label="get name"
           className="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg mb-4"
