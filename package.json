@@ -56,7 +56,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "lint": "oxlint",
+    "lint": "oxlint --type-aware",
     "format": "oxfmt ."
   },
   "type": "module"
