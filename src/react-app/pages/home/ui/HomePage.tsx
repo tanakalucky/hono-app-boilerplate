@@ -1,12 +1,10 @@
-// src/App.tsx
-
 import { useState } from "react";
 import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
-import reactLogo from "./assets/react.svg";
+import cloudflareLogo from "@/shared/assets/Cloudflare_Logo.svg";
+import honoLogo from "@/shared/assets/hono.svg";
+import reactLogo from "@/shared/assets/react.svg";
 
-function App() {
+export function HomePage() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("unknown");
 
@@ -66,7 +64,7 @@ function App() {
         <p className="text-gray-300 text-sm md:text-base">
           Edit{" "}
           <code className="bg-gray-700/70 px-2 py-1 rounded text-indigo-300 font-mono text-sm">
-            src/App.tsx
+            pages/home/ui/HomePage.tsx
           </code>{" "}
           and save to test HMR
         </p>
@@ -100,5 +98,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
