@@ -21,6 +21,7 @@ bun run cf-typegen
 ## 型チェック戦略
 
 複数のtsconfig.jsonで異なるコンテキストを管理：
+
 - `tsconfig.app.json` - React用（ES2020、React JSX）
 - `tsconfig.worker.json` - Worker用（Cloudflare環境）
 - `tsconfig.node.json` - Vite設定用
@@ -50,5 +51,5 @@ bun run cf-typegen
   - 参照検索（どこで使われているかを調査）
   - セマンティックな編集（シンボル単位での置換・挿入）
   - ファイル・パターン検索
-  
+
 **重要**: コンテキスト使用量の最適化のため、標準的な `Edit`/`Read`/`Glob`/`Grep`/`Write` ツールは無効化されています。代わりにSerenaのセマンティックツールを使用してください。

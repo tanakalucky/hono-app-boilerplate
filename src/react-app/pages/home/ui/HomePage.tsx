@@ -1,12 +1,10 @@
-// src/App.tsx
-
 import { useState } from "react";
 import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
-import reactLogo from "./assets/react.svg";
+import cloudflareLogo from "@/shared/assets/Cloudflare_Logo.svg";
+import honoLogo from "@/shared/assets/hono.svg";
+import reactLogo from "@/shared/assets/react.svg";
 
-function App() {
+export function HomePage() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("unknown");
 
@@ -66,7 +64,7 @@ function App() {
         <p className="text-gray-300 text-sm md:text-base">
           Edit{" "}
           <code className="bg-gray-700/70 px-2 py-1 rounded text-indigo-300 font-mono text-sm">
-            src/App.tsx
+            pages/home/ui/HomePage.tsx
           </code>{" "}
           and save to test HMR
         </p>
@@ -79,7 +77,8 @@ function App() {
           onClick={() => {
             fetch("/api/")
               .then((res) => res.json() as Promise<{ name: string }>)
-              .then((data) => setName(data.name));
+              .then((data) => setName(data.name))
+              .catch((error) => console.error(error));
           }}
           aria-label="get name"
           className="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg mb-4"
@@ -100,5 +99,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

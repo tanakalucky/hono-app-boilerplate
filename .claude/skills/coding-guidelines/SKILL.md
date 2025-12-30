@@ -31,6 +31,7 @@ export function ErrorMessage({ message }: ErrorMessageProps) {
 ```
 
 **理由**:
+
 - IDE の自動補完が正確に機能する
 - リファクタリング時の安全性が高い（リネーム追跡が容易）
 - import 時の名前の一貫性が保たれる（開発者ごとに異なる名前を付けることを防ぐ）
@@ -59,7 +60,7 @@ interface LoadingSpinnerProps {
 type Size = "sm" | "md" | "lg";
 type Status = "idle" | "loading" | "success" | "error";
 
-type ApiResponse<T> = 
+type ApiResponse<T> =
   | { status: "success"; data: T }
   | { status: "error"; error: Error };
 ```
@@ -118,7 +119,8 @@ const SIZES = {
 type Size = typeof SIZES[keyof typeof SIZES];
 ```
 
-**理由**: 
+**理由**:
+
 - `enum` はランタイムコードを生成し、bundle サイズが増える
 - tree-shaking を阻害する
 - Union Types で同等の型安全性を確保できる
@@ -136,8 +138,8 @@ const API_BASE_URL = "https://api.example.com";
 async function fetchWithRetry(url: string) {
   for (let i = 0; i < MAX_RETRY_COUNT; i++) {
     try {
-      const response = await fetch(url, { 
-        timeout: DEFAULT_TIMEOUT_MS 
+      const response = await fetch(url, {
+        timeout: DEFAULT_TIMEOUT_MS
       });
       return response;
     } catch (error) {
@@ -152,9 +154,11 @@ async function fetchWithRetry(url: string) {
 ## コメント規約
 
 ### 基本方針
+
 コメントは最低限にする。ADR（Architecture Decision Records）で重要な決定を記録しているため、コード内のコメントは補足的な役割に留める。
 
 ### コメントを書く場合
+
 - **「なぜ」を記載する**：実装の意図や背景を説明する
 - **「何を」は書かない**：コードを読めば分かることは書かない
 
@@ -176,6 +180,7 @@ const userId = user.id;
 ```
 
 ### コメントが不要な場合
+
 - 自己説明的なコード（適切な命名で意図が明確）
 - 単純なロジック（コードを読めば分かる）
 - ADRで詳細に記録済みの決定
@@ -185,9 +190,11 @@ const userId = user.id;
 ## 例外処理
 
 ### 基本方針
+
 例外が発生する可能性がある箇所では、原則として try-catch を使用する。
 
 ### try-catch を使用する場面
+
 - 外部APIへのリクエスト
 - ファイル入出力
 - データベース操作
@@ -214,6 +221,7 @@ async function fetchUser(userId: string): Promise<User> {
 ```
 
 ### エラーハンドリングのパターン
+
 1. **キャッチ＆リスロー**：エラーをログに記録してから上位に投げる
 2. **キャッチ＆リカバリ**：エラーを処理してデフォルト値を返す
 3. **キャッチ＆通知**：エラーをユーザーに通知する

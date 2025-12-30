@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./styles/index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import App from "./App.tsx";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { HomePage } from "@/pages/home";
+import { ErrorBoundary } from "@/app/providers/ErrorBoundary";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +18,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <HomePage />
       </QueryClientProvider>
     </ErrorBoundary>
   </StrictMode>,
