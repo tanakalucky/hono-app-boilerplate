@@ -5993,7 +5993,9 @@ declare module "cloudflare:workers" {
   export abstract class WorkflowEntrypoint<
     Env = unknown,
     T extends Rpc.Serializable<T> | unknown = unknown,
-  > implements Rpc.WorkflowEntrypointBranded {
+  >
+    implements Rpc.WorkflowEntrypointBranded
+  {
     [Rpc.__WORKFLOW_ENTRYPOINT_BRAND]: never;
     protected ctx: ExecutionContext;
     protected env: Env;

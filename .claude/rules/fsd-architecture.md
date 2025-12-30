@@ -19,40 +19,47 @@ FSD は、プロジェクトの安定性と理解度を高めるための建築�
 以下の7つのレイヤーを上から下の順で使用します（すべて必須ではありません）：
 
 ### 1. app（必須）
+
 - **責務**: アプリケーション全体の設定・初期化
 - **含むもの**: ルーティング、エントリーポイント、グローバルスタイル、プロバイダー
 - **例**: `app/providers/`, `app/styles/`, `app/router.tsx`
 
 ### 2. pages（推奨）
+
 - **責務**: ページ/画面全体の構成
 - **含むもの**: ページコンポーネント、ページ固有のロジック
 - **例**: `pages/home/`, `pages/dashboard/`, `pages/settings/`
 - **注意**: ページ固有のロジックのみ。再利用可能な部分は下位レイヤーへ
 
 ### 3. widgets（任意）
+
 - **責務**: 大規模で自己完結したUIブロック
 - **含むもの**: ヘッダー、サイドバー、フッターなど
 - **例**: `widgets/header/`, `widgets/sidebar/`
 - **判断基準**: 複数のfeaturesを組み合わせた複雑なUI
 
 ### 4. features（推奨）
+
 - **責務**: ユーザーが実行できる具体的な機能
 - **含むもの**: ビジネス価値を持つ再利用可能な機能
 - **例**: `features/auth/`, `features/post-comment/`, `features/search/`
 - **判断基準**: 「ユーザーができること」で考える
 
 ### 5. entities（推奨）
+
 - **責務**: ビジネスドメインの概念・モデル
 - **含むもの**: ビジネスエンティティの定義、基本的なUI
 - **例**: `entities/user/`, `entities/post/`, `entities/product/`
 - **注意**: ビジネスロジックは含まず、純粋なモデルとUI
 
 ### 6. shared（必須）
+
 - **責務**: プロジェクト全体で再利用される汎用的なコード
 - **含むもの**: UIキット、ユーティリティ、API設定
 - **例**: `shared/ui/`, `shared/lib/`, `shared/api/`, `shared/config/`
 
 ### 7. processes（非推奨）
+
 - ページ間シナリオ用（現在は非推奨、使用しない）
 
 ## スライス（Slices）
@@ -60,16 +67,19 @@ FSD は、プロジェクトの安定性と理解度を高めるための建築�
 スライスはビジネスドメインでコードを分割します。
 
 ### 命名規則
+
 - ビジネスドメインを反映した名前を使用
 - 技術的な名前は避ける
 - 例: `user`, `post`, `comment`, `authentication`
 
 ### ルール
+
 - **同一レイヤー内のスライス間での相互参照は禁止**
 - 各スライスは独立している必要がある
 - スライスをフォルダでグループ化可能（例: `entities/user/profile/`, `entities/user/settings/`）
 
 ### Public API
+
 各スライスは必ず `index.ts` でPublic APIを定義します：
 
 ```typescript
@@ -88,26 +98,32 @@ export type { AuthState } from './model/types'
 ### 標準セグメント名
 
 #### ui
+
 - UIコンポーネント、スタイル
 - 例: `Button.tsx`, `Form.module.css`
 
 #### api
+
 - バックエンド連携
 - 例: `getUserApi.ts`, `types.ts`
 
 #### model
+
 - データモデル、ビジネスロジック、ストア
 - 例: `useUserStore.ts`, `schema.ts`, `types.ts`
 
 #### lib
+
 - ライブラリコード、ヘルパー関数
 - 例: `formatDate.ts`, `validation.ts`
 
 #### config
+
 - 設定ファイル
 - 例: `constants.ts`, `routes.ts`
 
 ### 命名規則
+
 - 目的を説明する名前を使用
 - ❌ 避けるべき: `components/`, `hooks/`, `types/`
 - ✅ 推奨: `ui/`, `model/`, `lib/`
@@ -115,6 +131,7 @@ export type { AuthState } from './model/types'
 ## 依存関係のルール
 
 ### レイヤー間の依存
+
 上位レイヤーは下位レイヤーにのみ依存可能：
 
 ```
@@ -122,12 +139,14 @@ app → pages → widgets → features → entities → shared
 ```
 
 例:
+
 - ✅ `pages` は `features` をimport可能
 - ✅ `features` は `entities` をimport可能
 - ❌ `entities` は `features` をimport不可
 - ❌ `features` は `pages` をimport不可
 
 ### スライス間の依存
+
 同一レイヤー内のスライス間での相互参照は禁止：
 
 ```
@@ -136,6 +155,7 @@ app → pages → widgets → features → entities → shared
 ```
 
 ### 例外
+
 - **app** と **shared** は特殊で、セグメント間での相互参照が許可されます
 
 ## ディレクトリ構造の例
