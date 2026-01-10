@@ -22,8 +22,8 @@
     "noUncheckedSideEffectImports": true,
 
     "paths": {
-      "@/*": ["./src/react-app/*"],
-    },
+      "@/*": ["./src/react-app/*"]
+    }
   },
-  "include": ["src/react-app"],
+  "include": ["src/react-app"]
 }

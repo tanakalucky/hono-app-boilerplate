@@ -178,13 +178,13 @@ Conventional Commits形式でコミットします。サブタスクのメッセ
 
 ```typescript
 // ✅ 良いテスト：振る舞いを確認
-test('ユーザー登録に成功すると確認メールが送信される', async () => {
-  const user = { email: 'test@example.com', password: 'pass123' };
+test("ユーザー登録に成功すると確認メールが送信される", async () => {
+  const user = { email: "test@example.com", password: "pass123" };
   await registerUser(user);
 
   expect(mailService.send).toHaveBeenCalledWith({
-    to: 'test@example.com',
-    subject: '登録確認',
+    to: "test@example.com",
+    subject: "登録確認",
   });
 });
 ```
@@ -193,9 +193,9 @@ test('ユーザー登録に成功すると確認メールが送信される', as
 
 ```typescript
 // ✅ 良いテスト：実装の詳細を隠す
-test('無効なメールアドレスでユーザー登録すると失敗する', async () => {
-  const user = { email: 'invalid-email', password: 'pass123' };
-  await expect(registerUser(user)).rejects.toThrow('Invalid email');
+test("無効なメールアドレスでユーザー登録すると失敗する", async () => {
+  const user = { email: "invalid-email", password: "pass123" };
+  await expect(registerUser(user)).rejects.toThrow("Invalid email");
 });
 ```
 
@@ -209,7 +209,7 @@ test('無効なメールアドレスでユーザー登録すると失敗する',
 
 ```typescript
 // ❌ 悪いテスト：プロダクションコードのコピー
-test('isAdultは18歳以上でtrueを返す', () => {
+test("isAdultは18歳以上でtrueを返す", () => {
   expect(isAdult(18)).toBe(true);
 });
 ```
@@ -218,7 +218,7 @@ test('isAdultは18歳以上でtrueを返す', () => {
 
 ```typescript
 // ❌ 悪いテスト：内部状態を確認
-test('ユーザー登録時にuserCountが増える', async () => {
+test("ユーザー登録時にuserCountが増える", async () => {
   const initialCount = getUserCount();
   await registerUser(user);
   expect(getUserCount()).toBe(initialCount + 1);
@@ -234,17 +234,17 @@ test('ユーザー登録時にuserCountが増える', async () => {
 - 実際のブラウザ環境での動作確認が必要
 
 ```typescript
-import { test, expect } from 'vitest';
-import { page } from '@vitest/browser/context';
+import { test, expect } from "vitest";
+import { page } from "@vitest/browser/context";
 
-test('ログインフォームに入力して送信できる', async () => {
-  await page.goto('/login');
-  await page.fill('input[type="email"]', 'user@example.com');
-  await page.fill('input[type="password"]', 'password123');
+test("ログインフォームに入力して送信できる", async () => {
+  await page.goto("/login");
+  await page.fill('input[type="email"]', "user@example.com");
+  await page.fill('input[type="password"]', "password123");
   await page.click('button[type="submit"]');
 
   // 振る舞い：ログイン成功後はダッシュボードに遷移
-  await expect(page).toHaveURL('/dashboard');
+  await expect(page).toHaveURL("/dashboard");
 });
 ```
 
@@ -255,12 +255,12 @@ test('ログインフォームに入力して送信できる', async () => {
 - ユーティリティ関数のテスト
 
 ```typescript
-import { test, expect } from 'vitest';
+import { test, expect } from "vitest";
 
-test('パスワードがハッシュ化される', async () => {
-  const hashed = await hashPassword('password123');
+test("パスワードがハッシュ化される", async () => {
+  const hashed = await hashPassword("password123");
 
-  expect(hashed).not.toBe('password123');
+  expect(hashed).not.toBe("password123");
   expect(hashed.length).toBeGreaterThan(20);
 });
 ```
@@ -433,12 +433,14 @@ Linterとフォーマッターはcommit hookで自動実行されるため、明
 タスク: feat(api): ログイン機能の拡張
 
 失敗したテスト:
+
 - test/api/auth.test.ts: "ユーザー認証が正しく動作する"
 
 原因:
 既存の認証ロジックに依存するテストが、新しい実装で壊れました。
 
 推奨される次のアクション:
+
 1. 設計書を確認して、既存機能への影響を見直してください
 2. 既存テストを修正するか、設計を変更してください
 3. 修正後、再度実装エージェントを実行してください

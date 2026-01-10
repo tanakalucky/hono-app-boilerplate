@@ -84,9 +84,9 @@ FSD は、プロジェクトの安定性と理解度を高めるための建築�
 
 ```typescript
 // features/auth/index.ts
-export { LoginForm } from './ui/LoginForm'
-export { useAuth } from './model/useAuth'
-export type { AuthState } from './model/types'
+export { LoginForm } from "./ui/LoginForm";
+export { useAuth } from "./model/useAuth";
+export type { AuthState } from "./model/types";
 ```
 
 外部からは `index.ts` 経由でのみアクセス可能とし、内部実装を隠蔽します。
@@ -134,15 +134,15 @@ shared/ui/
 
 ```typescript
 // ❌ 避けるべき: features/auth/ui/index.ts を作成
-import { LoginForm } from './features/auth/ui'
+import { LoginForm } from "./features/auth/ui";
 
 // ✅ 推奨: スライスのindex.tsから直接export
 // features/auth/index.ts
-export { LoginForm } from './ui/LoginForm'
-export { LogoutButton } from './ui/LogoutButton'
+export { LoginForm } from "./ui/LoginForm";
+export { LogoutButton } from "./ui/LogoutButton";
 
 // 使用側
-import { LoginForm } from './features/auth'
+import { LoginForm } from "./features/auth";
 ```
 
 **3. プロジェクト規模に応じた構造検討**

@@ -60,9 +60,7 @@ interface LoadingSpinnerProps {
 type Size = "sm" | "md" | "lg";
 type Status = "idle" | "loading" | "success" | "error";
 
-type ApiResponse<T> =
-  | { status: "success"; data: T }
-  | { status: "error"; error: Error };
+type ApiResponse<T> = { status: "success"; data: T } | { status: "error"; error: Error };
 ```
 
 ### プリミティブ型のエイリアス: `type` を使用
@@ -116,7 +114,7 @@ const SIZES = {
   LG: "lg",
 } as const;
 
-type Size = typeof SIZES[keyof typeof SIZES];
+type Size = (typeof SIZES)[keyof typeof SIZES];
 ```
 
 **理由**:
@@ -139,7 +137,7 @@ async function fetchWithRetry(url: string) {
   for (let i = 0; i < MAX_RETRY_COUNT; i++) {
     try {
       const response = await fetch(url, {
-        timeout: DEFAULT_TIMEOUT_MS
+        timeout: DEFAULT_TIMEOUT_MS,
       });
       return response;
     } catch (error) {
