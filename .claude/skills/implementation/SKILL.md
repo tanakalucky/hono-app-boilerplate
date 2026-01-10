@@ -1,6 +1,8 @@
 ---
 name: implementation
 description: 実装計画書を元に自動実装を行うスキル。コード実装、テスト作成、コミットを行い、エラー時は3回リトライする。振る舞い駆動テスト、Conventional Commits準拠、既存コード保護を含む。
+context: fork
+agent: implementation-agent
 ---
 
 # 実装スキル
