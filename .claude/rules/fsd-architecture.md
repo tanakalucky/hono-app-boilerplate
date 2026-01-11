@@ -221,6 +221,91 @@ app → pages → widgets → features → entities → shared
 
 - **app** と **shared** は特殊で、セグメント間での相互参照が許可されます
 
+## インポートルール
+
+### エイリアスの使用
+
+他のレイヤーからインポートする場合は、必ずエイリアス `@/` を使用してください。
+
+#### 設定されているエイリアス
+
+| エイリアス | パス              |
+| ---------- | ----------------- |
+| `@/*`      | `src/react-app/*` |
+
+#### 使用例
+
+```typescript
+// ✅ 推奨: 他のレイヤーからのインポートはエイリアスを使用
+import { Button } from "@/shared/ui/Button";
+import { useAuth } from "@/features/auth";
+import { UserCard } from "@/entities/user";
+
+// ❌ 避けるべき: 相対パスでの他レイヤー参照
+import { Button } from "../../shared/ui/Button";
+import { useAuth } from "../../../features/auth";
+```
+
+### 同一スライス内のインポート
+
+同一スライス内でのインポートは相対パスを使用します：
+
+```typescript
+// features/auth/ui/LoginForm.tsx
+
+// ✅ 同一スライス内は相対パス
+import { useAuth } from "../model/useAuth";
+import { AuthButton } from "./AuthButton";
+
+// ❌ 同一スライス内でエイリアスは冗長
+import { useAuth } from "@/features/auth/model/useAuth";
+```
+
+### 同一レイヤー内のスライス間インポート（@xノーテーション）
+
+同一レイヤー内のスライス間での相互参照は通常禁止されていますが、エンティティレイヤーではビジネスドメインの性質上、完全に排除することが困難な場合があります。
+
+そのような場合は、**@xノーテーション**を使用してクロスインポート用の専用Public APIを定義します。
+
+#### ディレクトリ構造
+
+```
+entities/
+├── user/
+│   ├── @x/
+│   │   └── post.ts      # post専用のPublic API
+│   ├── ui/
+│   ├── model/
+│   └── index.ts         # 通常のPublic API
+└── post/
+    ├── ui/
+    │   └── PostCard.tsx # @x/post.ts経由でuserをimport
+    ├── model/
+    └── index.ts
+```
+
+#### 使用例
+
+```typescript
+// entities/user/@x/post.ts
+// postスライスに公開するuserのPublic API
+export type { User } from "../model/types";
+export { UserAvatar } from "../ui/UserAvatar";
+
+// entities/post/ui/PostCard.tsx
+// @xノーテーションでuserからimport
+import type { User } from "@/entities/user/@x/post";
+import { UserAvatar } from "@/entities/user/@x/post";
+```
+
+#### 重要な制限
+
+- **エンティティレイヤーでのみ使用**してください
+- クロスインポートは最小限に抑えてください
+- 可能な限り、下位レイヤー（shared）への移動を検討してください
+
+**参考**: [FSD公式 - Cross-imports用Public API](https://feature-sliced.design/ja/docs/reference/public-api#public-api-for-cross-imports)
+
 ## ディレクトリ構造の例
 
 ```
