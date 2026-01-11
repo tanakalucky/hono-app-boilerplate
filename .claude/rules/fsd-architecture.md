@@ -248,17 +248,19 @@ import { useAuth } from "../../../features/auth";
 
 ### 同一スライス内のインポート
 
-同一スライス内でのインポートは相対パスを使用します：
+同一スライス内（セグメント間）でのインポートは相対パスのみ使用します。
+**循環参照を防ぐため、barrel（index.ts）経由やエイリアス使用は禁止です。**
 
 ```typescript
 // features/auth/ui/LoginForm.tsx
 
-// ✅ 同一スライス内は相対パス
+// ✅ 同一スライス内は相対パスのみ
 import { useAuth } from "../model/useAuth";
 import { AuthButton } from "./AuthButton";
 
-// ❌ 同一スライス内でエイリアスは冗長
-import { useAuth } from "@/features/auth/model/useAuth";
+// ❌ 循環参照の原因となるため禁止
+import { useAuth } from "@/features/auth"; // barrel経由
+import { useAuth } from "@/features/auth/model/useAuth"; // エイリアス使用
 ```
 
 ### 同一レイヤー内のスライス間インポート（@xノーテーション）
