@@ -1,4 +1,26 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"]
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["vite**", "@vitejs/**"],
+      "groupName": "Vite"
+    },
+    {
+      "matchPackageNames": ["vitest**", "@vitest/**"],
+      "groupName": "Vitest"
+    },
+    {
+      "matchPackageNames": ["tailwindcss**", "@tailwindcss/**"],
+      "groupName": "Tailwind CSS"
+    },
+    {
+      "matchPackageNames": ["oxlint**", "oxfmt**"],
+      "groupName": "Linter/Formatter (oxlint)"
+    },
+    {
+      "matchPackageNames": ["wrangler**", "@cloudflare/**"],
+      "groupName": "Cloudflare"
+    }
+  ]
 }
