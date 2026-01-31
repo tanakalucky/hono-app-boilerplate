@@ -16,7 +16,7 @@
     },
     {
       "matchPackageNames": ["oxlint**", "oxfmt**"],
-      "groupName": "Linter/Formatter (oxlint)"
+      "groupName": "Linter Formatter"
     },
     {
       "matchPackageNames": ["wrangler**", "@cloudflare/**"],
