@@ -15,6 +15,7 @@ export default defineConfig({
           },
         },
         test: {
+          globals: true,
           name: "unit",
           environment: "node",
           include: ["**/*.unit.{test,spec}.{ts,tsx}"],
@@ -29,6 +30,7 @@ export default defineConfig({
         test: {
           include: ["**/*.browser.{test,spec}.{ts,tsx}"],
           name: "browser",
+          globals: true,
           browser: {
             enabled: true,
             provider: playwright(),
