@@ -3,24 +3,19 @@
   "extends": ["config:recommended"],
   "packageRules": [
     {
-      "matchPackageNames": ["vite**", "@vitejs/**"],
-      "groupName": "Vite"
+      "matchPackageNames": ["oxlint**"],
+      "groupName": "Linter",
+      "rangeStrategy": "bump"
     },
     {
-      "matchPackageNames": ["vitest**", "@vitest/**"],
-      "groupName": "Vitest"
-    },
-    {
-      "matchPackageNames": ["tailwindcss**", "@tailwindcss/**"],
-      "groupName": "Tailwind CSS"
-    },
-    {
-      "matchPackageNames": ["oxlint**", "oxfmt**"],
-      "groupName": "Linter Formatter"
+      "matchPackageNames": ["oxfmt**"],
+      "groupName": "Formatter",
+      "rangeStrategy": "bump"
     },
     {
       "matchPackageNames": ["wrangler**", "@cloudflare/**"],
-      "groupName": "Cloudflare"
+      "groupName": "Cloudflare",
+      "rangeStrategy": "bump"
     }
   ]
 }
