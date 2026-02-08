@@ -26,6 +26,9 @@ jobs:
       - name: Run linter
         run: bun run lint
 
+      - name: Install playwright
+        run: bunx playwright install
+
       - name: Run tests
         run: bun run test
 
