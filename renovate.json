@@ -9,7 +9,7 @@
   },
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 3am on the first day of the month"]
+    "schedule": ["before 5am on monday"]
   },
   "packageRules": [
     {
