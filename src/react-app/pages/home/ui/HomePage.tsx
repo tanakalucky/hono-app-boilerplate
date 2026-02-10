@@ -24,7 +24,7 @@ export function HomePage() {
           href="https://react.dev"
           target="_blank"
           rel="noreferrer"
-          className="transition-all duration-300 hover:drop-shadow-[0_0_2em_rgba(97,218,251,0.67)] motion-safe:animate-spin motion-safe:[animation-duration:20s]"
+          className="transition-all duration-300 hover:drop-shadow-[0_0_2em_rgba(97,218,251,0.67)] motion-safe:animate-spin motion-safe:animation-duration-[20s]"
         >
           <img src={reactLogo} className="h-16 md:h-24 p-4 md:p-6" alt="React logo" />
         </a>

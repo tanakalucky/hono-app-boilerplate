@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript"],
+  "jsPlugins": ["eslint-plugin-better-tailwindcss"],
+  "rules": {
+    "better-tailwindcss/enforce-shorthand-classes": "warn",
+    "better-tailwindcss/enforce-canonical-classes": "warn",
+    "better-tailwindcss/no-conflicting-classes": "error",
+    "better-tailwindcss/no-duplicate-classes": "warn",
+    "better-tailwindcss/no-unnecessary-whitespace": "warn"
+  },
+  "settings": {
+    "better-tailwindcss": {
+      "entryPoint": "src/react-app/app/styles/index.css"
+    }
+  }
+}
