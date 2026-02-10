@@ -1,6 +1,6 @@
 ---
 name: coding-guidelines
-description: TypeScriptコーディング規約。命名規約、export/import、型定義の使い分け、禁止事項（any、enum、magic number）、コメント規約、例外処理などを定義。TypeScriptコードを書く際、レビューする際、リファクタリングする際に使用。
+description: TypeScriptコーディング規約。命名規約、export/import、型定義の使い分け、関数定義スタイル、禁止事項（any、enum、as、!、@ts-ignore、magic number）、readonly活用、Discriminated Union、コメント規約、例外処理などを定義。TypeScriptコードを書く際、レビューする際、リファクタリングする際に使用。
 ---
 
 # TypeScript コーディング規約
@@ -21,13 +21,26 @@ description: TypeScriptコーディング規約。命名規約、export/import�
 ### 全て named export を使用 (default export 禁止)
 
 ```typescript
-export function LoadingSpinner({ size = "md" }: LoadingSpinnerProps) {
+export const LoadingSpinner = ({ size = "md" }: LoadingSpinnerProps) => {
   // ...
-}
+};
 
-export function ErrorMessage({ message }: ErrorMessageProps) {
+export const ErrorMessage = ({ message }: ErrorMessageProps) => {
   // ...
-}
+};
+```
+
+### 例外: フレームワークが default export を要求する場合
+
+Next.js の page/layout/route 等、フレームワークの仕様上 default export が必須な場合のみ許容する。その場合もnamed functionではなく、constで定義した上でexportする。
+
+```typescript
+// Next.js page（フレームワーク要件による例外）
+const Page = () => {
+  return <div>...</div>;
+};
+
+export default Page;
 ```
 
 **理由**:
@@ -36,6 +49,56 @@ export function ErrorMessage({ message }: ErrorMessageProps) {
 - リファクタリング時の安全性が高い（リネーム追跡が容易）
 - import 時の名前の一貫性が保たれる（開発者ごとに異なる名前を付けることを防ぐ）
 - tree-shaking がより効果的に機能する
+
+## 関数定義スタイル
+
+### `const` + アロー関数を標準にする
+
+関数の定義には `function` 宣言ではなく、`const` + アロー関数を使用する。
+
+```typescript
+// ✅ Good: const + アロー関数
+export const calculateTotal = (items: Item[]): number => {
+  return items.reduce((sum, item) => sum + item.price, 0);
+};
+
+export const formatDate = (date: Date): string => {
+  return date.toISOString().split("T")[0];
+};
+
+// ✅ Good: Reactコンポーネントも同様
+export const UserCard = ({ name, email }: UserCardProps) => {
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>{email}</p>
+    </div>
+  );
+};
+
+// ❌ Bad: function 宣言
+export function calculateTotal(items: Item[]): number {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+```
+
+### 例外: ジェネリクスでJSXと曖昧になる場合
+
+`.tsx` ファイル内でジェネリクスを使用する場合、パーサーがJSXタグと混同するため `function` 宣言を許容する。
+
+```typescript
+// .tsx ファイル内でのジェネリクス: function宣言を許容
+export function identity<T>(value: T): T {
+  return value;
+}
+```
+
+**理由**:
+
+- `const` は再代入を防ぎ、関数が意図せず上書きされるリスクを排除する
+- hoisting が発生しないため、コードの実行順序が宣言順と一致し、可読性が向上する
+- プロジェクト全体で関数定義のスタイルが統一される
+- アロー関数は `this` を束縛しないため、意図しない `this` の参照を防ぐ
 
 ## Type vs Interface
 
@@ -80,17 +143,17 @@ type Percentage = number;
 `any` の使用は原則禁止。やむを得ない場合は `unknown` を経由して型ガードを実装すること。
 
 ```typescript
-function handleError(error: unknown) {
+const handleError = (error: unknown) => {
   if (error instanceof Error) {
     console.error(error.message);
   } else {
     console.error("Unknown error", error);
   }
-}
+};
 
-function parseJson(json: string): unknown {
+const parseJson = (json: string): unknown => {
   return JSON.parse(json);
-}
+};
 ```
 
 **理由**: `any` は型安全性を完全に破壊する。`unknown` なら型ガードを強制でき、型安全性を保ちながら柔軟性を確保できる。
@@ -124,7 +187,86 @@ type Size = (typeof SIZES)[keyof typeof SIZES];
 - Union Types で同等の型安全性を確保できる
 - `as const` を使えばランタイムオブジェクトと型の両方を得られる
 
-### 3. magic number の使用禁止
+### 3. `as` 型アサーションの使用制限
+
+`as` による型アサーションは原則禁止。型ガード、`satisfies`、ジェネリクスで代替すること。
+
+```typescript
+// ✅ Good: satisfies で型チェック
+const config = {
+  port: 3000,
+  host: "localhost",
+} satisfies ServerConfig;
+
+// ✅ Good: 型ガードで安全に絞り込み
+const isUser = (value: unknown): value is User => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "id" in value &&
+    "name" in value
+  );
+};
+
+// ❌ Bad: as で型を強制
+const user = data as User;
+
+// ❌ Bad: as で無理やり型を変換
+const id = someValue as unknown as string;
+```
+
+### 唯一の許容ケース: `as const`
+
+`as const` はリテラル型の推論に必要であり、型安全性を**強化**するものなので許容する。
+
+```typescript
+// ✅ OK: as const は許容
+const ROLES = ["admin", "editor", "viewer"] as const;
+```
+
+**理由**: `as` は型チェックをバイパスするため、ランタイムエラーの原因になる。`satisfies` や型ガードは実際の値を検証するため、型安全性が保たれる。
+
+### 4. 非nullアサーション (`!`) の使用禁止
+
+`!` 演算子は原則禁止。optional chaining (`?.`) やnullish coalescing (`??`)、型のnarrowingで代替すること。
+
+```typescript
+// ✅ Good: optional chaining + nullish coalescing
+const userName = user?.name ?? "Unknown";
+
+// ✅ Good: 型ガードでnarrowing
+const getElement = (id: string): HTMLElement => {
+  const element = document.getElementById(id);
+  if (!element) {
+    throw new Error(`Element not found: ${id}`);
+  }
+  return element; // この時点でHTMLElement型に絞り込まれる
+};
+
+// ❌ Bad: 非nullアサーション
+const userName = user!.name;
+const element = document.getElementById("app")!;
+```
+
+**理由**: `!` は「null/undefinedではないと開発者が断言する」意味だが、実行時に保証がない。明示的なチェックの方がランタイムエラーを防げる。
+
+### 5. `@ts-ignore` の使用禁止 (`@ts-expect-error` を使用)
+
+`@ts-ignore` は禁止。やむを得ず型エラーを抑制する場合は `@ts-expect-error` を使用し、必ず理由をコメントで記載すること。
+
+```typescript
+// ✅ Good: @ts-expect-error + 理由を記載
+// @ts-expect-error: ライブラリの型定義が古く、新しいオプションに対応していない
+someLibrary.doSomething({ newOption: true });
+
+// ❌ Bad: @ts-ignore（理由なし）
+// @ts-ignore
+someLibrary.doSomething({ newOption: true });
+```
+
+**理由**: `@ts-ignore` は対象のエラーが解消されても無警告でそのまま残る。`@ts-expect-error` はエラーが解消されると「不要な抑制」として警告が出るため、不要になったタイミングで検知・削除できる。
+
+### 6. magic number の使用禁止
 
 数値や文字列のリテラルは定数化すること。
 
@@ -133,21 +275,98 @@ const MAX_RETRY_COUNT = 3;
 const DEFAULT_TIMEOUT_MS = 5000;
 const API_BASE_URL = "https://api.example.com";
 
-async function fetchWithRetry(url: string) {
+const fetchWithRetry = async (url: string) => {
   for (let i = 0; i < MAX_RETRY_COUNT; i++) {
     try {
-      const response = await fetch(url, {
-        timeout: DEFAULT_TIMEOUT_MS,
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
       return response;
     } catch (error) {
       if (i === MAX_RETRY_COUNT - 1) throw error;
     }
   }
-}
+};
 ```
 
 **理由**: コードの可読性と保守性を向上させる。変更が必要な場合、一箇所の修正で済む。定数名が値の意味を明確にする。
+
+## `readonly` の活用
+
+### 基本方針
+
+変更する意図がないデータには積極的に `readonly` を付与し、不変性を明示する。
+
+### プロパティの `readonly`
+
+```typescript
+interface User {
+  readonly id: string;
+  readonly email: string;
+  name: string; // 変更可能なプロパティのみreadonlyを付けない
+}
+```
+
+### 関数引数での `Readonly<T>` / `readonly` 配列
+
+関数が引数を変更しない場合は、`readonly` で意図を明示する。
+
+```typescript
+// 配列を変更しないことを型で保証
+const calculateAverage = (values: readonly number[]): number => {
+  return values.reduce((sum, v) => sum + v, 0) / values.length;
+};
+
+// オブジェクトを変更しないことを型で保証
+const formatUser = (user: Readonly<User>): string => {
+  return `${user.name} <${user.email}>`;
+};
+```
+
+**理由**: `readonly` を使うことで、意図しないミュータブル操作をコンパイル時に検出できる。特に関数の引数に付与することで、副作用がないことを型レベルで保証でき、コードの予測可能性が向上する。
+
+## Discriminated Union と網羅性チェック
+
+### 状態管理での Discriminated Union パターン
+
+複数の状態を持つデータは、共通の判別プロパティ（discriminant）を持つ Discriminated Union で定義する。
+
+```typescript
+type AsyncState<T> =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "error"; error: Error };
+```
+
+### `never` を使った網羅性チェック
+
+switch 文で全ケースを処理していることをコンパイル時に保証する。
+
+```typescript
+const assertNever = (value: never): never => {
+  throw new Error(`Unexpected value: ${value}`);
+};
+
+const renderState = (state: AsyncState<User>) => {
+  switch (state.status) {
+    case "idle":
+      return null;
+    case "loading":
+      return <Spinner />;
+    case "success":
+      return <UserProfile data={state.data} />;
+    case "error":
+      return <ErrorMessage error={state.error} />;
+    default:
+      return assertNever(state); // 新しいstatusが追加されたらコンパイルエラー
+  }
+};
+```
+
+**理由**: Discriminated Union により、各状態で利用可能なプロパティが型レベルで保証される。`never` を使った網羅性チェックにより、新しい状態が追加された際にハンドリング漏れをコンパイル時に検出できる。
 
 ## コメント規約
 
@@ -201,7 +420,7 @@ const userId = user.id;
 
 ```typescript
 // ✅ 適切な例外処理
-async function fetchUser(userId: string): Promise<User> {
+const fetchUser = async (userId: string): Promise<User> => {
   try {
     const response = await fetch(`/api/users/${userId}`);
     if (!response.ok) {
@@ -209,13 +428,12 @@ async function fetchUser(userId: string): Promise<User> {
     }
     return await response.json();
   } catch (error) {
-    // 型ガードで適切に処理
     if (error instanceof Error) {
       console.error(`Error fetching user ${userId}:`, error.message);
     }
-    throw error; // 上位で処理させる
+    throw error;
   }
-}
+};
 ```
 
 ### エラーハンドリングのパターン
