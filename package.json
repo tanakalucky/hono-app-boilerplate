@@ -11,7 +11,7 @@
     "dev": "vite",
     "preview": "bun run build && vite preview",
     "test": "vitest --project unit & vitest --project browser",
-    "lint": "oxlint --type-aware",
+    "lint": "oxlint --type-aware --fix",
     "format": "oxfmt .",
     "ui:add": "bun run scripts/shadcn-add.ts",
     "ui:organize": "bun run scripts/organize-ui.ts",
