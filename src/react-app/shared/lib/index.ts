@@ -1,1 +1,1 @@
-export * from "./shadcn-utils";
+export * from "./utils";
