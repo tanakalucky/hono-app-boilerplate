@@ -49,7 +49,7 @@ async function main(): Promise<void> {
   console.log(`📦 shadcn/ui コンポーネントを追加中: ${args.join(", ")}\n`);
 
   // shadcn add を実行
-  const shadcnExitCode = await runCommand("bunx", ["--bun", "shadcn@latest", "add", ...args]);
+  const shadcnExitCode = await runCommand("bun", ["shadcn", "add", ...args]);
 
   if (shadcnExitCode !== 0) {
     console.error("\n❌ shadcn add に失敗しました");
