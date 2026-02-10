@@ -1,0 +1,1891 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Claude Code インサイト</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.65;
+        padding: 48px 24px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 8px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0f172a;
+        margin-top: 48px;
+        margin-bottom: 16px;
+      }
+      .subtitle {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 32px;
+      }
+      .nav-toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 24px 0 32px 0;
+        padding: 16px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+      }
+      .nav-toc a {
+        font-size: 12px;
+        color: #64748b;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        transition: all 0.15s;
+      }
+      .nav-toc a:hover {
+        background: #e2e8f0;
+        color: #334155;
+      }
+      .stats-row {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 40px;
+        padding: 20px 0;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        flex-wrap: wrap;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+      }
+      .at-a-glance {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 1px solid #f59e0b;
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+      }
+      .glance-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #92400e;
+        margin-bottom: 16px;
+      }
+      .glance-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .glance-section {
+        font-size: 14px;
+        color: #78350f;
+        line-height: 1.6;
+      }
+      .glance-section strong {
+        color: #92400e;
+      }
+      .see-more {
+        color: #b45309;
+        text-decoration: none;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      .see-more:hover {
+        text-decoration: underline;
+      }
+      .project-areas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+      .project-area {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .area-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .area-name {
+        font-weight: 600;
+        font-size: 15px;
+        color: #0f172a;
+      }
+      .area-count {
+        font-size: 12px;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+      .area-desc {
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.5;
+      }
+      .narrative {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .narrative p {
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.7;
+      }
+      .key-insight {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 12px;
+        font-size: 14px;
+        color: #166534;
+      }
+      .section-intro {
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 16px;
+      }
+      .big-wins {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .big-win {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .big-win-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #166534;
+        margin-bottom: 8px;
+      }
+      .big-win-desc {
+        font-size: 14px;
+        color: #15803d;
+        line-height: 1.5;
+      }
+      .friction-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .friction-category {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .friction-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #991b1b;
+        margin-bottom: 6px;
+      }
+      .friction-desc {
+        font-size: 13px;
+        color: #7f1d1d;
+        margin-bottom: 10px;
+      }
+      .friction-examples {
+        margin: 0 0 0 20px;
+        font-size: 13px;
+        color: #334155;
+      }
+      .friction-examples li {
+        margin-bottom: 4px;
+      }
+      .claude-md-section {
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+      .claude-md-section h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e40af;
+        margin: 0 0 12px 0;
+      }
+      .claude-md-actions {
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #dbeafe;
+      }
+      .copy-all-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 12px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .copy-all-btn:hover {
+        background: #1d4ed8;
+      }
+      .copy-all-btn.copied {
+        background: #16a34a;
+      }
+      .claude-md-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px 0;
+        border-bottom: 1px solid #dbeafe;
+      }
+      .claude-md-item:last-child {
+        border-bottom: none;
+      }
+      .cmd-checkbox {
+        margin-top: 2px;
+      }
+      .cmd-code {
+        background: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #1e40af;
+        border: 1px solid #bfdbfe;
+        font-family: monospace;
+        display: block;
+        white-space: pre-wrap;
+        word-break: break-word;
+        flex: 1;
+      }
+      .cmd-why {
+        font-size: 12px;
+        color: #64748b;
+        width: 100%;
+        padding-left: 24px;
+        margin-top: 4px;
+      }
+      .features-section,
+      .patterns-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .feature-card {
+        background: #f0fdf4;
+        border: 1px solid #86efac;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .pattern-card {
+        background: #f0f9ff;
+        border: 1px solid #7dd3fc;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .feature-title,
+      .pattern-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #0f172a;
+        margin-bottom: 6px;
+      }
+      .feature-oneliner {
+        font-size: 14px;
+        color: #475569;
+        margin-bottom: 8px;
+      }
+      .pattern-summary {
+        font-size: 14px;
+        color: #475569;
+        margin-bottom: 8px;
+      }
+      .feature-why,
+      .pattern-detail {
+        font-size: 13px;
+        color: #334155;
+        line-height: 1.5;
+      }
+      .feature-examples {
+        margin-top: 12px;
+      }
+      .feature-example {
+        padding: 8px 0;
+        border-top: 1px solid #d1fae5;
+      }
+      .feature-example:first-child {
+        border-top: none;
+      }
+      .example-desc {
+        font-size: 13px;
+        color: #334155;
+        margin-bottom: 6px;
+      }
+      .example-code-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .example-code {
+        flex: 1;
+        background: #f1f5f9;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        color: #334155;
+        overflow-x: auto;
+        white-space: pre-wrap;
+      }
+      .copyable-prompt-section {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #e2e8f0;
+      }
+      .copyable-prompt-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .copyable-prompt {
+        flex: 1;
+        background: #f8fafc;
+        padding: 10px 12px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+        white-space: pre-wrap;
+        line-height: 1.5;
+      }
+      .feature-code {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 12px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .feature-code code {
+        flex: 1;
+        font-family: monospace;
+        font-size: 12px;
+        color: #334155;
+        white-space: pre-wrap;
+      }
+      .pattern-prompt {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 12px;
+        border: 1px solid #e2e8f0;
+      }
+      .pattern-prompt code {
+        font-family: monospace;
+        font-size: 12px;
+        color: #334155;
+        display: block;
+        white-space: pre-wrap;
+        margin-bottom: 8px;
+      }
+      .prompt-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #64748b;
+        margin-bottom: 6px;
+      }
+      .copy-btn {
+        background: #e2e8f0;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        cursor: pointer;
+        color: #475569;
+        flex-shrink: 0;
+      }
+      .copy-btn:hover {
+        background: #cbd5e1;
+      }
+      .charts-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin: 24px 0;
+      }
+      .chart-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .chart-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .bar-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .bar-label {
+        width: 100px;
+        font-size: 11px;
+        color: #475569;
+        flex-shrink: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .bar-track {
+        flex: 1;
+        height: 6px;
+        background: #f1f5f9;
+        border-radius: 3px;
+        margin: 0 8px;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 3px;
+      }
+      .bar-value {
+        width: 28px;
+        font-size: 11px;
+        font-weight: 500;
+        color: #64748b;
+        text-align: right;
+      }
+      .empty {
+        color: #94a3b8;
+        font-size: 13px;
+      }
+      .horizon-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .horizon-card {
+        background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%);
+        border: 1px solid #c4b5fd;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      .horizon-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #5b21b6;
+        margin-bottom: 8px;
+      }
+      .horizon-possible {
+        font-size: 14px;
+        color: #334155;
+        margin-bottom: 10px;
+        line-height: 1.5;
+      }
+      .horizon-tip {
+        font-size: 13px;
+        color: #6b21a8;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 8px 12px;
+        border-radius: 4px;
+      }
+      .feedback-header {
+        margin-top: 48px;
+        color: #64748b;
+        font-size: 16px;
+      }
+      .feedback-intro {
+        font-size: 13px;
+        color: #94a3b8;
+        margin-bottom: 16px;
+      }
+      .feedback-section {
+        margin-top: 16px;
+      }
+      .feedback-section h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 12px;
+      }
+      .feedback-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+      .feedback-card.team-card {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+      }
+      .feedback-card.model-card {
+        background: #faf5ff;
+        border-color: #e9d5ff;
+      }
+      .feedback-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: #0f172a;
+        margin-bottom: 6px;
+      }
+      .feedback-detail {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.5;
+      }
+      .feedback-evidence {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 8px;
+      }
+      .fun-ending {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 1px solid #fbbf24;
+        border-radius: 12px;
+        padding: 24px;
+        margin-top: 40px;
+        text-align: center;
+      }
+      .fun-headline {
+        font-size: 18px;
+        font-weight: 600;
+        color: #78350f;
+        margin-bottom: 8px;
+      }
+      .fun-detail {
+        font-size: 14px;
+        color: #92400e;
+      }
+      .collapsible-section {
+        margin-top: 16px;
+      }
+      .collapsible-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 12px 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .collapsible-header h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+      }
+      .collapsible-arrow {
+        font-size: 12px;
+        color: #94a3b8;
+        transition: transform 0.2s;
+      }
+      .collapsible-content {
+        display: none;
+        padding-top: 16px;
+      }
+      .collapsible-content.open {
+        display: block;
+      }
+      .collapsible-header.open .collapsible-arrow {
+        transform: rotate(90deg);
+      }
+      @media (max-width: 640px) {
+        .charts-row {
+          grid-template-columns: 1fr;
+        }
+        .stats-row {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Claude Code インサイト</h1>
+      <p class="subtitle">34セッション・221メッセージ | 2026-01-01 〜 2026-02-07</p>
+
+      <div class="at-a-glance">
+        <div class="glance-title">概要</div>
+        <div class="glance-sections">
+          <div class="glance-section">
+            <strong>うまくいっていること：</strong>git diffを分析し、整理された日本語のConventional
+            Commitを作成するスマートコミットワークフローが、多くのセッションにわたって信頼性の高い開発サイクルの一部として定着しています。また、詳細な計画から完全なアプリを構築するアーキテクチャレベルの実装エンジンとして（殺人ミステリーメモアプリなど）、そして生のメモを構造化された成果物に変換するナレッジ統合パートナーとしても効果的に活用されています。
+            <a href="#section-wins" class="see-more">印象的な成果 →</a>
+          </div>
+          <div class="glance-section">
+            <strong>妨げになっていること：</strong
+            >Claude側では、シンプルな実装を求めている場面で過剰設計に走ったり、計画ループに入り込む傾向があり、複数ファイルの編集で構文エラーや重複コードが頻繁に発生し、手動で発見・修正する必要があります。ユーザー側では、Claudeがプロジェクトの規約を把握していないため、npm/npxをbunの代わりに使ったり、シンプルなアプローチを好むことを知らなかったり、編集後に自動で型チェックを実行しないなど、事前設定で排除できるはずの中断に時間を費やしています。
+            <a href="#section-friction" class="see-more">問題が起きる場面 →</a>
+          </div>
+          <div class="glance-section">
+            <strong>すぐに試せる改善策：</strong>日本語Conventional
+            Commitワークフローをカプセル化したカスタム<code>/smartcommit</code>スキルを作成すれば、毎回説明し直す必要がなくなります。ファイル編集のたびに自動で型チェックとlintを実行するフックを設定すれば、構文エラーや壊れたコードのほとんどを事前にキャッチできます。CLAUDE.mdにbun優先、コミットメッセージは日本語、シンプルな実装を好むといった規約を追加すれば、最も頻繁な中断を排除できます。
+            <a href="#section-features" class="see-more">試すべき機能 →</a>
+          </div>
+          <div class="glance-section">
+            <strong>野心的なワークフロー：</strong
+            >モデルの能力が向上するにつれ、スマートコミットパイプラインは完全自律化できます —
+            diffの分析、コミットの分割、プレコミットチェックの実行、プッシュ、説明付きPRの作成を、ルーティン変更では承認なしで行えるようになります。アプリ構築セッションも変革できます：計画から洗練されたUIまで複数セッションにわたる逐次的なやり取りの代わりに、並列サブエージェントが同時にコンポーネントの構築、テストの作成、スタイルの改善を行い、Claudeがテストスイートに対して自己修正してから結果を提示できるようになります。
+            <a href="#section-horizon" class="see-more">今後の展望 →</a>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-toc">
+        <a href="#section-work">作業内容</a>
+        <a href="#section-usage">使い方の傾向</a>
+        <a href="#section-wins">印象的な成果</a>
+        <a href="#section-friction">問題が起きる場面</a>
+        <a href="#section-features">試すべき機能</a>
+        <a href="#section-patterns">新しい活用パターン</a>
+        <a href="#section-horizon">今後の展望</a>
+      </nav>
+
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-value">221</div>
+          <div class="stat-label">メッセージ</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">+3,875/-533</div>
+          <div class="stat-label">行数</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">55</div>
+          <div class="stat-label">ファイル</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">10</div>
+          <div class="stat-label">日数</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">22.1</div>
+          <div class="stat-label">メッセージ/日</div>
+        </div>
+      </div>
+
+      <h2 id="section-work">作業内容</h2>
+      <div class="project-areas">
+        <div class="project-area">
+          <div class="area-header">
+            <span class="area-name">殺人ミステリーメモアプリ開発</span>
+            <span class="area-count">約7セッション</span>
+          </div>
+          <div class="area-desc">
+            チャット風入力、ドラッグ＆ドロップ、localStorage永続化を備えたReact/TypeScript製殺人ミステリーメモアプリを構築。Claude
+            Codeは企画からUI反復改善まで、フルスタック実装に活用。状態管理のリファクタリング（useStateからlocalStorageへ）、ホバースタイルのバグ修正、品質チェックの実行に使用。デザインの仕上げやReact状態の問題デバッグで多くのやり取りが発生。
+          </div>
+        </div>
+
+        <div class="project-area">
+          <div class="area-header">
+            <span class="area-name">Git操作・スマートコミット</span>
+            <span class="area-count">約10セッション</span>
+          </div>
+          <div class="area-desc">
+            diffの分析、日本語Conventional
+            Commitメッセージによる論理的なコミット分割、プッシュ、PR作成を含むgitワークフローの自動化。Claude
+            Codeはスマートコミットツールとして多用され、ステージ済み/未ステージの変更を分析し、整理されたコミットグループを提案し、ユーザー承認後に実行。最も頻繁かつ安定して成功したパターンの1つ。
+          </div>
+        </div>
+
+        <div class="project-area">
+          <div class="area-header">
+            <span class="area-name">Marpプレゼンテーション・コンテンツ作成</span>
+            <span class="area-count">約4セッション</span>
+          </div>
+          <div class="area-desc">
+            AI
+            Clubのスライドを含むMarpプレゼンテーションの作成・改良。ポップで明るいデザイン、絵文字の統合、情報漏洩トピックのコンテンツ再構成を実施。Claude
+            Codeはスタイル適用、コンテンツ整理、PDFエクスポートを担当。ただし、反復的なデザイン改善サイクルでは苦戦し、ツール選択（bunx
+            vs npm）や日本語の表現について案内が必要な場面も。
+          </div>
+        </div>
+
+        <div class="project-area">
+          <div class="area-header">
+            <span class="area-name">Renovate設定・依存関係管理</span>
+            <span class="area-count">約4セッション</span>
+          </div>
+          <div class="area-desc">
+            5つのパッケージグループにまたがるグループPR戦略による依存関係自動更新のためのRenovateボット設定を設計・実装。Claude
+            Codeはsemver範囲の説明、@types/nodeと@types/bunの互換性調査、設定構造の共同計画、最終的なrenovate.jsonの実装・コミットに活用。依存関係ツールチェインの制約に関する知識の質問も含まれた。
+          </div>
+        </div>
+
+        <div class="project-area">
+          <div class="area-header">
+            <span class="area-name">自動化スクリプト・ナレッジ管理</span>
+            <span class="area-count">約5セッション</span>
+          </div>
+          <div class="area-desc">
+            PDFデータからJobcanへの勤怠入力自動化、NotionページからのAI記事サマリーPDF生成、125件のデイリーノートから7件の永続ノートへの統合、shadcn/uiコンポーネント再構成スクリプトの実装を実施。Claude
+            Codeはエンドツーエンドのワークフロー実行、ドキュメント分析・統合、複数ファイルスクリプティング・コミット・PR作成に活用。
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">目的別セッション</div>
+          <div class="bar-row">
+            <div class="bar-label">Git操作</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">5</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Gitコミット</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 60%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">PR作成</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 60%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">コミット管理</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 60%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">UIデザイン改善</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 60%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">知識の質問</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 40%; background: #2563eb"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">よく使うツール</div>
+          <div class="bar-row">
+            <div class="bar-label">Bash</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">225</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Read</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 43.55%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">98</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">TodoWrite</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 26.22%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">59</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Write</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 20.89%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">47</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Edit</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 20%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">45</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">TaskUpdate</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 12%; background: #0891b2"></div>
+            </div>
+            <div class="bar-value">27</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">使用言語</div>
+          <div class="bar-row">
+            <div class="bar-label">Markdown</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">83</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">TypeScript</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 77.11%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">64</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">JSON</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 14.46%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">12</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Python</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 8.43%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">7</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">CSS</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 2.41%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">HTML</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 2.41%; background: #10b981"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">セッションタイプ</div>
+          <div class="bar-row">
+            <div class="bar-label">単一タスク</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">17</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">反復改善</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 64.71%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">11</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">複数タスク</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 17.65%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">簡単な質問</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 11.76%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">探索</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 5.88%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">1</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-usage">Claude Codeの使い方</h2>
+      <div class="narrative">
+        <p>
+          あなたは高度に<strong>委任志向のワークフロー</strong>を持ち、Claude
+          Codeをコーディングアシスタントとgit自動化レイヤーの両方として活用しています。セッションのかなりの部分
+          — 約3分の1 — がgit操作に費やされています：日本語Conventional
+          Commitメッセージによるスマートコミット、論理的なdiff分割、プッシュ、PR作成など。勤怠PDF処理やスマートコミットなどのタスクに対して再現可能なパターン（おそらくカスタムコマンド）を構築し、Claudeを会話相手ではなく<strong>自動パイプライン実行エンジン</strong>として扱っています。殺人ミステリーメモアプリのような機能開発に取り組む際は、<strong>詳細な事前仕様</strong>や構造化されたプランを提供し、Claudeに実装を任せる傾向があります。TodoWriteが59回、ExitPlanModeが12回使用されていることから、作業前にプランモードで整理する頻度が高いことが確認できます。
+        </p>
+        <p>
+          とはいえ、あなたは<strong>受動的な委任者ではありません</strong> —
+          Claudeが逸脱した際には断固として介入しています。Claudeが過剰設計の<code>useSyncExternalStore</code>アプローチを提案した際にシンプルさへとリダイレクトし、ツール選択を複数回修正し（npm→bun、npx→bunx）、不正確な技術説明を指摘し、「段階」や「瞬間」といった不自然な日本語表現にも異議を唱えました。摩擦データには「間違ったアプローチ」が9回、「バグのあるコード」が7回記録されていますが、成果は強力に維持されています（完全達成23件、部分達成2件のみ）。これは、セッションを放棄するのではなく、<strong>素早く軌道修正する</strong>能力の高さを示しています。メモアプリとMarpプレゼンテーションの反復デザイン改善セッションでは、ビジュアル出力を確認し、的確なフィードバックを提供し、Claudeに過度な計画なしで調整を実行させるパターンが見られます。
+        </p>
+        <p>
+          使用言語（Markdownが83、TypeScriptが64と多い）と、125件のノートを永続ノートに統合したりNotionページからPDFサマリーを生成したりするタスクを組み合わせると、あなたは従来の開発に加えて<strong>ナレッジ管理とコンテンツ作成</strong>にもClaude
+          Codeを使用していることがわかります。短く集中的なバーストで作業しています —
+          わずか5時間で34セッション・221メッセージは、セッション平均が10分未満であることを意味します。これはClaude
+          Codeを長時間のペアプログラミングではなく、<strong>高速タスク完了のためのパワーツール</strong>として扱うユーザーの特徴です。
+        </p>
+        <div class="key-insight">
+          <strong>主要パターン：</strong>あなたはClaude
+          Codeを、事前定義されたワークフローによる高速タスク実行ツールとして運用し、間違ったアプローチや不正確なツール使用があった場合にのみ、鋭く的確に介入します。
+        </div>
+      </div>
+
+      <!-- 応答時間分布 -->
+      <div class="chart-card" style="margin: 24px 0">
+        <div class="chart-title">ユーザー応答時間の分布</div>
+        <div class="bar-row">
+          <div class="bar-label">2-10秒</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 35.29%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">12</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">10-30秒</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 88.24%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">30</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">30秒-1分</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 47.06%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">16</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">1-2分</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 100%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">34</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">2-5分</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 47.06%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">16</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">5-15分</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 29.41%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">10</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">15分以上</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 2.94%; background: #6366f1"></div>
+          </div>
+          <div class="bar-value">1</div>
+        </div>
+        <div style="font-size: 12px; color: #64748b; margin-top: 8px">
+          中央値: 61.4秒 &bull; 平均: 135.3秒
+        </div>
+      </div>
+
+      <!-- マルチクローディングセクション -->
+      <div class="chart-card" style="margin: 24px 0">
+        <div class="chart-title">マルチクローディング（並列セッション）</div>
+
+        <div style="display: flex; gap: 24px; margin: 12px 0">
+          <div style="text-align: center">
+            <div style="font-size: 24px; font-weight: 700; color: #7c3aed">2</div>
+            <div style="font-size: 11px; color: #64748b; text-transform: uppercase">
+              重複イベント
+            </div>
+          </div>
+          <div style="text-align: center">
+            <div style="font-size: 24px; font-weight: 700; color: #7c3aed">4</div>
+            <div style="font-size: 11px; color: #64748b; text-transform: uppercase">
+              関連セッション
+            </div>
+          </div>
+          <div style="text-align: center">
+            <div style="font-size: 24px; font-weight: 700; color: #7c3aed">10%</div>
+            <div style="font-size: 11px; color: #64748b; text-transform: uppercase">
+              メッセージ割合
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: #475569; margin-top: 12px">
+          複数のClaude
+          Codeセッションを同時に実行しています。マルチクローディングはセッションが時間的に重複している場合に検出され、並列ワークフローを示唆します。
+        </p>
+      </div>
+
+      <!-- 時間帯別・ツールエラー -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title" style="display: flex; align-items: center; gap: 12px">
+            時間帯別ユーザーメッセージ
+            <select
+              id="timezone-select"
+              style="
+                font-size: 12px;
+                padding: 4px 8px;
+                border-radius: 4px;
+                border: 1px solid #e2e8f0;
+              "
+            >
+              <option value="0">太平洋時間 (UTC-8)</option>
+              <option value="3">東部時間 (UTC-5)</option>
+              <option value="8">ロンドン (UTC)</option>
+              <option value="9">中央ヨーロッパ (UTC+1)</option>
+              <option value="17" selected>東京 (UTC+9)</option>
+              <option value="custom">カスタムオフセット...</option>
+            </select>
+            <input
+              type="number"
+              id="custom-offset"
+              placeholder="UTCオフセット"
+              style="
+                display: none;
+                width: 80px;
+                font-size: 12px;
+                padding: 4px;
+                border-radius: 4px;
+                border: 1px solid #e2e8f0;
+              "
+            />
+          </div>
+          <div id="hour-histogram">
+            <div class="bar-row">
+              <div class="bar-label">午前 (6-12)</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 100%; background: #8b5cf6"></div>
+              </div>
+              <div class="bar-value">119</div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label">午後 (12-18)</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 41.18%; background: #8b5cf6"></div>
+              </div>
+              <div class="bar-value">49</div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label">夕方 (18-24)</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 44.54%; background: #8b5cf6"></div>
+              </div>
+              <div class="bar-value">53</div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label">深夜 (0-6)</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: 0%; background: #8b5cf6"></div>
+              </div>
+              <div class="bar-value">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">発生したツールエラー</div>
+          <div class="bar-row">
+            <div class="bar-label">ユーザー拒否</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">15</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">コマンド失敗</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 86.67%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">13</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">その他</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 60%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">9</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">ファイル変更済み</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 20%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">ファイル未検出</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 6.67%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">1</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-wins">印象的な成果</h2>
+      <p class="section-intro">
+        約5週間の34セッションにわたり、TypeScriptアプリ、git自動化、コンテンツ作成において、大部分のタスクで完全な成功を収める高効率なワークフローをClaude
+        Codeで構築しました。
+      </p>
+      <div class="big-wins">
+        <div class="big-win">
+          <div class="big-win-title">スマートコミット自動化パイプライン</div>
+          <div class="big-win-desc">
+            Claudeがgit diffを分析し、日本語Conventional
+            Commitメッセージで論理的なコミットに分割し、承認後にプッシュする洗練されたスマートコミットワークフローを構築しました。このパターンは多くのセッションにわたって登場し、開発サイクルの信頼性の高い不可欠な一部となっています
+            — 通常は手作業のわずらわしい作業を、合理的で一貫したプロセスに変換しました。
+          </div>
+        </div>
+
+        <div class="big-win">
+          <div class="big-win-title">計画からの完全なアプリ構築</div>
+          <div class="big-win-desc">
+            殺人ミステリーメモアプリに見られるように、詳細な計画から完全に実装されたアプリケーションへとClaudeを効果的に活用しました。要件収集、計画を経て、Claudeに全ファイルの生成、依存関係のインストール、型チェックとlintの通過を確認させ、本質的にアーキテクチャレベルで操縦するフルスタック実装エンジンとしてClaudeを使用しました。
+          </div>
+        </div>
+
+        <div class="big-win">
+          <div class="big-win-title">ナレッジ統合とノートキュレーション</div>
+          <div class="big-win-desc">
+            2025年12月の125件のノートを分析し、テーマ別にグループ化を提案し、7件の永続ノートに統合するという高度なナレッジ管理ワークフローにClaudeを活用しました。AI記事をリンク付きPDFにまとめたセッションと合わせると、生の情報を構造化された永続的な知識成果物に変換する知的パートナーとしてClaudeを効果的に使用しています。
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">最も役立ったこと（Claudeの能力）</div>
+          <div class="bar-row">
+            <div class="bar-label">正確なコード編集</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">14</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">先回りの支援</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 42.86%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">6</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">複数ファイル変更</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 35.71%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">5</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">高速・正確な検索</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 28.57%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">4</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">わかりやすい説明</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 21.43%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">優れたデバッグ</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 14.29%; background: #16a34a"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">成果</div>
+          <div class="bar-row">
+            <div class="bar-label">部分的に達成</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 8.7%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">ほぼ達成</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 39.13%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">9</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">完全に達成</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #8b5cf6"></div>
+            </div>
+            <div class="bar-value">23</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-friction">問題が起きる場面</h2>
+      <p class="section-intro">
+        主な摩擦ポイントは、Claudeが間違ったツールや過剰設計のアプローチをデフォルトで選択してしまうことに起因し、繰り返しの修正と中断を余儀なくされています。
+      </p>
+      <div class="friction-categories">
+        <div class="friction-category">
+          <div class="friction-title">パッケージマネージャーとツールのデフォルト設定の誤り</div>
+          <div class="friction-desc">
+            Claudeはbunベースのプロジェクトでnpm/npxをデフォルトで使用してしまい、中断して修正する必要が繰り返し発生しました。CLAUDE.mdですべてのプロジェクトでbunを使用するよう指定すれば、Claudeがnpmにフォールバックすることを防げます。
+          </div>
+          <ul class="friction-examples">
+            <li>
+              Claudeが依存関係操作にnpmコマンドを使用し、ロックファイルの動作について不正確な説明をしたため、セッション中に修正が必要になった
+            </li>
+            <li>
+              Claudeがnpmベースのpdfエクスポートを試みてキャッシュ権限の問題で少なくとも2回失敗し、毎回bunxの使用を提案する必要があった
+            </li>
+          </ul>
+        </div>
+
+        <div class="friction-category">
+          <div class="friction-title">過剰設計と直接行動の代わりの過度な計画</div>
+          <div class="friction-desc">
+            Claudeは不必要に複雑なソリューションを提案したり、素直な実装を求めている場面で繰り返し計画サイクルに入ることがあります。「最もシンプルなアプローチを使って」「計画をスキップして、そのまま実装して」といった明示的なシンプルさの制約をプロンプトに前置きすることで対処できます。
+          </div>
+          <ul class="friction-examples">
+            <li>
+              Claudeがシンプルな直接読み取りパターンで十分なlocalStorageリファクタリングにuseSyncExternalStoreを提案し、中断してよりシンプルなアプローチを求める必要があった
+            </li>
+            <li>
+              プレゼンテーションのデザイン改善を依頼した際、Claudeが改善を直接適用する代わりに複数の計画イテレーションと質問を繰り返し、進捗が停滞した
+            </li>
+          </ul>
+        </div>
+
+        <div class="friction-category">
+          <div class="friction-title">即座の修正を要するバグのあるコード変更</div>
+          <div class="friction-desc">
+            Claudeの編集 — 特に複数ファイルや大規模な置換 —
+            は構文エラー、重複コード、破損を頻繁に引き起こし、発見して修正を依頼する必要があります。編集後に結果を提示する前に常に型チェックとlintを実行するよう指示すれば、これらの問題を事前にキャッチできます。
+          </div>
+          <ul class="friction-examples">
+            <li>
+              メモアプリへのClaudeの初期デザイン変更が4つのコンポーネント（MemoPage、MemoInput、ResetButton、MemoItem）にわたって重複コードと構文エラーを引き起こし、500エラーが発生。中断してスクリーンショット前の事前チェックを要求する必要があった
+            </li>
+            <li>
+              コード置換がファイル末尾の重複コードにより構文エラーを引き起こし、編集直後にリンターを実行していれば回避できた追加の修正ステップが必要になった
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-title">主な摩擦タイプ</div>
+          <div class="bar-row">
+            <div class="bar-label">間違ったアプローチ</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">9</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">バグのあるコード</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 77.78%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">7</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">過度な変更</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 33.33%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">3</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">ユーザーが操作を拒否</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 22.22%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">2</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">不正確な説明</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 11.11%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">1</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">リクエストの誤解</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 11.11%; background: #dc2626"></div>
+            </div>
+            <div class="bar-value">1</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">推定満足度（モデル推定）</div>
+          <div class="bar-row">
+            <div class="bar-label">不満</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 15%; background: #eab308"></div>
+            </div>
+            <div class="bar-value">6</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">おそらく満足</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%; background: #eab308"></div>
+            </div>
+            <div class="bar-value">40</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">満足</div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 2.5%; background: #eab308"></div>
+            </div>
+            <div class="bar-value">1</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-features">試すべきClaude Code機能</h2>
+      <div class="claude-md-section">
+        <h3>CLAUDE.mdへの追加候補</h3>
+        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px">
+          Claude Codeにコピー＆ペーストするだけでCLAUDE.mdに追加されます。
+        </p>
+        <div class="claude-md-actions">
+          <button class="copy-all-btn" onclick="copyAllCheckedClaudeMd()">
+            チェック済みをすべてコピー
+          </button>
+        </div>
+
+        <div class="claude-md-item">
+          <input
+            type="checkbox"
+            id="cmd-0"
+            class="cmd-checkbox"
+            checked
+            data-text="CLAUDE.mdの## パッケージマネージャーセクションに追加&#10;&#10;すべてのパッケージ管理とスクリプト実行コマンドには、`npm`、`npx`、`yarn`の代わりに常に`bun`と`bunx`を使用すること。"
+          />
+          <label for="cmd-0">
+            <code class="cmd-code"
+              >すべてのパッケージ管理とスクリプト実行コマンドには、`npm`、`npx`、`yarn`の代わりに常に`bun`と`bunx`を使用すること。</code
+            >
+            <button class="copy-btn" onclick="copyCmdItem(0)">コピー</button>
+          </label>
+          <div class="cmd-why">
+            複数のセッションでClaudeがnpm/npxをデフォルトで使用し、毎回ユーザーの修正が必要になった
+            — 繰り返し発生する摩擦ポイント。
+          </div>
+        </div>
+
+        <div class="claude-md-item">
+          <input
+            type="checkbox"
+            id="cmd-1"
+            class="cmd-checkbox"
+            checked
+            data-text="## Gitコンベンションセクションに追加&#10;&#10;変更をコミットする際は、日本語のコミットメッセージでConventional Commit形式を使用すること。diffを分析し、論理的なコミットグループを提案し、実行前にユーザーの承認を待つこと。"
+          />
+          <label for="cmd-1">
+            <code class="cmd-code"
+              >変更をコミットする際は、日本語のコミットメッセージでConventional
+              Commit形式を使用すること。diffを分析し、論理的なコミットグループを提案し、実行前にユーザーの承認を待つこと。</code
+            >
+            <button class="copy-btn" onclick="copyCmdItem(1)">コピー</button>
+          </label>
+          <div class="cmd-why">
+            少なくとも8つのセッションで日本語Conventional
+            Commitによるスマートコミットワークフローが使用された —
+            これはコード化すべき中核的な反復ワークフロー。
+          </div>
+        </div>
+
+        <div class="claude-md-item">
+          <input
+            type="checkbox"
+            id="cmd-2"
+            class="cmd-checkbox"
+            checked
+            data-text="## UI開発セクションに追加&#10;&#10;スクリーンショットを撮ったりUI変更を提示する前に、必ず型チェック（`bunx tsc --noEmit`）、lint、開発サーバーがエラーなく動作していることを確認すること。壊れたUIを見せてはならない。"
+          />
+          <label for="cmd-2">
+            <code class="cmd-code"
+              >スクリーンショットを撮ったりUI変更を提示する前に、必ず型チェック（`bunx tsc
+              --noEmit`）、lint、開発サーバーがエラーなく動作していることを確認すること。壊れたUIを見せてはならない。</code
+            >
+            <button class="copy-btn" onclick="copyCmdItem(2)">コピー</button>
+          </label>
+          <div class="cmd-why">
+            複数のセッションでClaudeがUI変更時に構文エラーや重複コードを導入し、500エラーが発生。ユーザーが中断して事前チェックを要求する必要があった。
+          </div>
+        </div>
+
+        <div class="claude-md-item">
+          <input
+            type="checkbox"
+            id="cmd-3"
+            class="cmd-checkbox"
+            checked
+            data-text="## コードスタイルセクション（上部付近）に追加&#10;&#10;巧妙な抽象化よりもシンプルで最小限のソリューションを優先すること。リファクタリングを求められた場合は、まず最もシンプルなアプローチを提案すること。明示的に要求されない限り、高度なパターン（例：useSyncExternalStore）を使用しないこと。"
+          />
+          <label for="cmd-3">
+            <code class="cmd-code"
+              >巧妙な抽象化よりもシンプルで最小限のソリューションを優先すること。リファクタリングを求められた場合は、まず最もシンプルなアプローチを提案すること。明示的に要求されない限り、高度なパターン（例：useSyncExternalStore）を使用しないこと。</code
+            >
+            <button class="copy-btn" onclick="copyCmdItem(3)">コピー</button>
+          </label>
+          <div class="cmd-why">
+            複数のセッションでClaudeがソリューションを過剰設計し（useSyncExternalStore、過度な計画サイクル）、ユーザーがシンプルなアプローチを求めて中断する必要があった。
+          </div>
+        </div>
+
+        <div class="claude-md-item">
+          <input
+            type="checkbox"
+            id="cmd-4"
+            class="cmd-checkbox"
+            checked
+            data-text="## ワークフロー設定セクションに追加&#10;&#10;デザインの改善や改良を求められた場合は、複数の計画イテレーションや確認質問に入るのではなく、直接変更を適用すること。オプションを議論するのではなく、結果を見せて反復すること。"
+          />
+          <label for="cmd-4">
+            <code class="cmd-code"
+              >デザインの改善や改良を求められた場合は、複数の計画イテレーションや確認質問に入るのではなく、直接変更を適用すること。オプションを議論するのではなく、結果を見せて反復すること。</code
+            >
+            <button class="copy-btn" onclick="copyCmdItem(4)">コピー</button>
+          </label>
+          <div class="cmd-why">
+            プレゼンテーションデザインのセッションで、Claudeが改善を直接適用するのではなく計画サイクルを繰り返し、ユーザーを苛立たせた。
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 12px">
+        Claude Codeにコピー＆ペーストするだけでセットアップが始まります。
+      </p>
+      <div class="features-section">
+        <div class="feature-card">
+          <div class="feature-title">カスタムスキル</div>
+          <div class="feature-oneliner">単一の/コマンドで実行できる再利用可能なプロンプト</div>
+          <div class="feature-why">
+            <strong>あなたにとっての利点：</strong
+            >すでに8以上のセッションで使用しているスマートコミットワークフロー —
+            diffの分析、変更のグループ化、日本語Conventional Commitメッセージの作成、プッシュ —
+            があります。/commitスキルを作れば、毎回これらの指示を繰り返す必要がなくなります。
+          </div>
+
+          <div class="feature-examples">
+            <div class="feature-example">
+              <div class="example-code-row">
+                <code class="example-code"
+                  >mkdir -p .claude/skills/commit &amp;&amp; cat &gt; .claude/skills/commit/SKILL.md
+                  &lt;&lt; 'EOF' ## スマートコミット 1. `git diff
+                  --staged`（ステージングなしの場合は`git diff`）を実行して変更を分析 2.
+                  関連する変更を論理的なコミットにグループ化 3. 日本語でConventional
+                  Commitメッセージを作成 4. 提案されたコミットを提示し、ユーザーの承認を待つ 5.
+                  コミットを実行しリモートにプッシュ ルール： -
+                  `git`コマンドを直接使用（npm/npxは使わない） - 常にConventional
+                  Commit形式を使用：feat:, fix:, chore:, docs:, refactor: -
+                  コミットメッセージは日本語で記述 - プッシュ前にユーザーに確認 EOF</code
+                >
+                <button class="copy-btn" onclick="copyText(this)">コピー</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-title">フック</div>
+          <div class="feature-oneliner">
+            特定のライフサイクルイベントに応じて自動実行されるシェルコマンド
+          </div>
+          <div class="feature-why">
+            <strong>あなたにとっての利点：</strong
+            >複数のセッションでClaudeが結果を提示する前に構文エラーや壊れたコードを導入しました。型チェックを実行するプリエディットフックがあれば、7回発生した「バグのあるコード」の摩擦を自動的に防止できます。
+          </div>
+
+          <div class="feature-examples">
+            <div class="feature-example">
+              <div class="example-code-row">
+                <code class="example-code"
+                  ># .claude/settings.json に追加： { "hooks": { "postToolUse": [ { "matcher":
+                  "Write|Edit", "command": "ext=$(echo $CLAUDE_FILE_PATH | sed 's/.*\\.//'); if [
+                  \"$ext\" = \"ts\" ] || [ \"$ext\" = \"tsx\" ]; then bunx tsc --noEmit 2>&amp;1 |
+                  head -20; fi" } ] } }</code
+                >
+                <button class="copy-btn" onclick="copyText(this)">コピー</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-title">カスタムスキル</div>
+          <div class="feature-oneliner">
+            よく使うブランチ+コミット+PRワークフローの/prスキルを作成
+          </div>
+          <div class="feature-why">
+            <strong>あなたにとっての利点：</strong
+            >少なくとも3つのセッションでコミット後にPRを作成しています。/prスキルを作れば、スマートコミットロジックとブランチ作成、PR送信を1つのコマンドにまとめられます。
+          </div>
+
+          <div class="feature-examples">
+            <div class="feature-example">
+              <div class="example-code-row">
+                <code class="example-code"
+                  >mkdir -p .claude/skills/pr &amp;&amp; cat &gt; .claude/skills/pr/SKILL.md
+                  &lt;&lt; 'EOF' ## PR作成 1.
+                  現在のブランチを確認（mainの場合は新しいブランチを作成） 2.
+                  /commitスキルを実行して変更を整理・コミット 3. ブランチをリモートにプッシュ 4.
+                  わかりやすいタイトルと説明でPRを作成 ルール： - PRタイトルは英語、Conventional
+                  Commitスタイル - PR本文は箇条書きで変更を要約 - PR作成には`gh pr create`を使用 -
+                  常に`bun`/`bunx`を使用、npm/npxは使わない EOF</code
+                >
+                <button class="copy-btn" onclick="copyText(this)">コピー</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-patterns">Claude Codeの新しい活用方法</h2>
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 12px">
+        Claude Codeにコピー＆ペーストするだけでガイドが始まります。
+      </p>
+      <div class="patterns-section">
+        <div class="pattern-card">
+          <div class="pattern-title">スマートコミットワークフローをコード化する</div>
+          <div class="pattern-summary">
+            最も頻繁なタスク（8セッション以上）はdiffの分析と日本語Conventional
+            Commitの作成。これを1コマンド操作にしましょう。
+          </div>
+          <div class="pattern-detail">
+            Claude Codeセッションのかなりの部分をgit操作に費やしています —
+            スマートコミット、プッシュ、PR作成がトップゴールの約半分を占めています。毎回同じ要件を説明しています：Conventional
+            Commit形式、日本語メッセージ、論理的なグループ化。/commitカスタムスキルを作成すれば、すでに好みを知っている1つのコマンドに変わります。CLAUDE.mdのgitコンベンション項目と組み合わせれば、Claudeに2度説明する必要がなくなります。
+          </div>
+
+          <div class="copyable-prompt-section">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <div class="copyable-prompt-row">
+              <code class="copyable-prompt"
+                >git diffを分析し、日本語メッセージで論理的なConventional
+                Commitにグループ化し、承認を待ってからコミット・プッシュする、.claude/skills/commit/SKILL.mdにカスタムスキルを作成してください。</code
+              >
+              <button class="copy-btn" onclick="copyText(this)">コピー</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-title">壊れたコードに対するガードレールを追加する</div>
+          <div class="pattern-summary">
+            最大の摩擦源はバグのあるコード（7回）と間違ったアプローチ（9回）。編集後の自動型チェックでほとんどをキャッチできます。
+          </div>
+          <div class="pattern-detail">
+            特にUI開発セッションで、Claudeが構文エラー、重複コードブロック、壊れたコンポーネントを複数回導入しました。Claudeが次のステップに進む前に確認するよう中断して依頼する必要がありました。Write/Edit操作のたびにTypeScript型チェックを実行するpostToolUseフックがあれば、エラーを即座に表面化させ、Claudeが次のステップに進む前にキャッチできます。これにより、リアクティブな「破損を修正する」ループが、プロアクティブな「即座にキャッチする」ワークフローに変わり、最も一般的な不満から解放されます。
+          </div>
+
+          <div class="copyable-prompt-section">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <div class="copyable-prompt-row">
+              <code class="copyable-prompt"
+                >TypeScriptファイルへのWriteまたはEditの後にbunx tsc --noEmitを実行するClaude
+                Codeフックを.claude/settings.jsonに設定して、型エラーを即座にキャッチできるようにしてください。</code
+              >
+              <button class="copy-btn" onclick="copyText(this)">コピー</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-title">中断を減らすためにプロジェクト規約を前置きする</div>
+          <div class="pattern-summary">
+            多くの摩擦ポイントは、Claudeがプロジェクト規約を知らないことに起因しています（npmよりbun、複雑よりシンプル、日本語の好み）。
+          </div>
+          <div class="pattern-detail">
+            34セッションにわたり、同じことを繰り返し修正しました：npmではなくbunを使って、過剰設計しないで、日本語でコミットメッセージを書いて、UIを見せる前にコードをチェックして。これらの修正は時間を浪費し、フローを中断させます。これらの規約を記載した構造化されたCLAUDE.mdがあれば、Claudeはセッション開始時にそれを読み、自動的に従います。これは特にあなたにとって効果的です。なぜなら、34という高いセッション数と比較的短い平均セッション時間を持つため、2〜3回の修正後ではなく、最初のメッセージから正しく動作する必要があるからです。
+          </div>
+
+          <div class="copyable-prompt-section">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <div class="copyable-prompt-row">
+              <code class="copyable-prompt"
+                >このプロジェクトの包括的なCLAUDE.mdを作成してください。主な規約：常にbun/bunxを使用（npm/npxは使わない）、日本語のConventional
+                Commitメッセージ、抽象化よりシンプルなソリューションを優先、UI変更を提示する前に必ず型チェックを実行、確認質問を繰り返す代わりにデザイン変更を直接適用。</code
+              >
+              <button class="copy-btn" onclick="copyText(this)">コピー</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="section-horizon">今後の展望</h2>
+      <p class="section-intro">
+        あなたのClaude
+        Code利用状況は、gitワークフローを自動化しフルアプリを構築するパワーユーザーであることを示していますが、テストスイートに対してエージェントを自律的に実行させたり、並列ワークストリームをオーケストレーションする大きな可能性がまだ残されています。
+      </p>
+      <div class="horizon-section">
+        <div class="horizon-card">
+          <div class="horizon-title">テスト駆動エージェントループによる自己修復コード</div>
+          <div class="horizon-possible">
+            摩擦データはバグのあるコードが7回、間違ったアプローチが9回あることを示しています —
+            その多くはユーザーの手動介入を必要としました。ClaudeはVitestテストスイートに対して自律的にイテレーションし、構文エラー、重複コード、リグレッションをあなたが確認する前にキャッチできます。リファクタリングを開始して、戻ってきたらグリーンのテストスイートとクリーンなdiffがレビュー待ちになっている状態を想像してみてください。
+          </div>
+          <div class="horizon-tip">
+            <strong>始め方：</strong>Claude
+            Codeのヘッドレスモードやカスタムスラッシュコマンドを使用して、編集のたびにテストを実行し、すべてパスするまで自己修正するワークフローを作成しましょう。既存のTodoWrite/TaskUpdateパターンと組み合わせて、構造化されたマルチステップ実行を実現できます。
+          </div>
+          <div class="pattern-prompt">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <code
+              >以下のリファクタリングを自律的に実装してほしい。ファイル編集のたびに`bun test`と`bun
+              run typecheck`と`bun run
+              lint`を実行すること。チェックが失敗した場合はエラーを分析し、修正し、再実行すること。質問はしないで
+              —
+              最善の判断で進めること。すべてのチェックがエラーゼロでパスするまでイテレーションし続けること。それが完了したら、行ったすべての変更と最終テスト出力のサマリーを見せてください。リファクタリング内容：[リファクタリングの説明]</code
+            ><button class="copy-btn" onclick="copyText(this)">コピー</button>
+          </div>
+        </div>
+
+        <div class="horizon-card">
+          <div class="horizon-title">フルスタック機能開発のための並列エージェント</div>
+          <div class="horizon-possible">
+            すでに印象的な複数ファイル変更（5件の成功事例）とフルアプリスキャフォールディングを行っていますが、各セッションは逐次的です。並列サブエージェントを使えば、UIコンポーネント、APIルート、テスト、ドキュメントを同時に生成し、結果をマージできます。計画から仕上げまで複数セッションかかった殺人ミステリーメモアプリも、1回の協調的なバーストで構築できるかもしれません。
+          </div>
+          <div class="horizon-tip">
+            <strong>始め方：</strong>Claude CodeのTaskツールまたはSDK経由で複数のClaude
+            Codeインスタンスをオーケストレーションして並列ワークストリームを実行しましょう。1つのエージェントがコンポーネント、もう1つがテスト、3つ目がスタイリングを担当
+            — すべて共有プランドキュメントから作業します。
+          </div>
+          <div class="pattern-prompt">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <code
+              >オーケストレーターとして機能してください。この機能を並列ワークストリームに分割し、Taskツールを使ってサブエージェントをディスパッチしてください。ワークストリーム1：TypeScript型付きReactコンポーネントの作成。ワークストリーム2：各コンポーネントの包括的なVitestテストの作成。ワークストリーム3：このデザイン仕様に合わせたCSS/スタイリングの実装。各サブエージェントは独立して作業し、その後あなたが結果をマージし、競合を解決し、グリーンになるまでフルテストスイートを実行してください。機能仕様：[機能の説明]</code
+            ><button class="copy-btn" onclick="copyText(this)">コピー</button>
+          </div>
+        </div>
+
+        <div class="horizon-card">
+          <div class="horizon-title">スマートバリデーション付きゼロ介入Gitワークフロー</div>
+          <div class="horizon-possible">
+            Git操作はあなたの最も頻繁なユースケースです（コミット、プッシュ、PRで13以上のセッション）。スマートコミットコマンドも構築済みですが、コミット探索中のユーザー中断やパッケージマネージャーの誤り（npm
+            vs
+            bun）による摩擦がまだ残っています。完全自律パイプラインなら、diffの分析、論理的なコミット分割、プレコミットチェックの実行、日本語Conventional
+            Commitメッセージの生成、プッシュ、説明付きPRの作成を、ルーティン変更では承認ステップなしで実行できます。
+          </div>
+          <div class="horizon-tip">
+            <strong>始め方：</strong>既存のスマートコミットスラッシュコマンドを、Claude
+            Codeフックとnpmよりbunを強制しコミット規約を定義するCLAUDE.md命令を使って、フルCI的パイプラインに拡張しましょう。
+          </div>
+          <div class="pattern-prompt">
+            <div class="prompt-label">Claude Codeに貼り付け：</div>
+            <code
+              >このリポジトリのステージ済みおよび未ステージの変更をすべて分析してください。日本語メッセージのConventional
+              Commits形式に従って論理的なコミットにグループ化してください。各提案コミットに対して：1)
+              関連ファイルのみをステージ、2) ステージされたファイルに対して`bun run typecheck`と`bun
+              run lint`を実行、3) チェックが失敗した場合は問題を修正して再ステージ、4)
+              日本語のConventional
+              Commitメッセージでコミット。すべてのコミットが作成されたら、現在のブランチにプッシュ。mainの場合はまずフィーチャーブランチを作成。その後、すべてのコミットを要約するマークダウン説明付きのPRを作成。CLIツールには`bunx`を使用し、`npx`や`npm`は使わないこと。承認を求めず、パイプライン全体を実行すること。</code
+            ><button class="copy-btn" onclick="copyText(this)">コピー</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="fun-ending">
+        <div class="fun-headline">
+          「Claudeがチャット風入力とドラッグ＆ドロップを備えた殺人ミステリーメモアプリをゼロから構築
+          — しかも最初のdevサーバー起動で動いた」
+        </div>
+        <div class="fun-detail">
+          ある野心的なセッションで、ユーザーがClaudeに殺人ミステリーメモアプリの詳細な計画を渡しました。Claudeはすべてのファイルを作成し、依存関係をインストールし、型チェックとlintをパスし、devサーバーの起動に成功しました。ユーザーは「不可欠」と評価。その後のセッションでは反復的なデザイン調整に突入し、Claudeの編集が複数のコンポーネントで構文エラーと500エラーを引き起こし、ハネムーン期間は永遠に続かないことを証明しました。
+        </div>
+      </div>
+    </div>
+    <script>
+      function toggleCollapsible(header) {
+        header.classList.toggle("open");
+        const content = header.nextElementSibling;
+        content.classList.toggle("open");
+      }
+      function copyText(btn) {
+        const code = btn.previousElementSibling;
+        navigator.clipboard.writeText(code.textContent).then(() => {
+          btn.textContent = "コピーしました！";
+          setTimeout(() => {
+            btn.textContent = "コピー";
+          }, 2000);
+        });
+      }
+      function copyCmdItem(idx) {
+        const checkbox = document.getElementById("cmd-" + idx);
+        if (checkbox) {
+          const text = checkbox.dataset.text;
+          navigator.clipboard.writeText(text).then(() => {
+            const btn = checkbox.nextElementSibling.querySelector(".copy-btn");
+            if (btn) {
+              btn.textContent = "コピーしました！";
+              setTimeout(() => {
+                btn.textContent = "コピー";
+              }, 2000);
+            }
+          });
+        }
+      }
+      function copyAllCheckedClaudeMd() {
+        const checkboxes = document.querySelectorAll(".cmd-checkbox:checked");
+        const texts = [];
+        checkboxes.forEach((cb) => {
+          if (cb.dataset.text) {
+            texts.push(cb.dataset.text);
+          }
+        });
+        const combined = texts.join("\n");
+        const btn = document.querySelector(".copy-all-btn");
+        if (btn) {
+          navigator.clipboard.writeText(combined).then(() => {
+            btn.textContent = texts.length + "件コピーしました！";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = "チェック済みをすべてコピー";
+              btn.classList.remove("copied");
+            }, 2000);
+          });
+        }
+      }
+      // タイムゾーンセレクター
+      const rawHourCounts = {
+        6: 3,
+        7: 30,
+        8: 3,
+        9: 39,
+        10: 21,
+        11: 23,
+        12: 11,
+        13: 4,
+        14: 3,
+        15: 10,
+        16: 5,
+        17: 16,
+        18: 9,
+        19: 14,
+        20: 24,
+        21: 6,
+      };
+      function updateHourHistogram(offsetFromPT) {
+        const periods = [
+          { label: "午前 (6-12)", range: [6, 7, 8, 9, 10, 11] },
+          { label: "午後 (12-18)", range: [12, 13, 14, 15, 16, 17] },
+          { label: "夕方 (18-24)", range: [18, 19, 20, 21, 22, 23] },
+          { label: "深夜 (0-6)", range: [0, 1, 2, 3, 4, 5] },
+        ];
+        const adjustedCounts = {};
+        for (const [hour, count] of Object.entries(rawHourCounts)) {
+          const newHour = (parseInt(hour) + offsetFromPT + 24) % 24;
+          adjustedCounts[newHour] = (adjustedCounts[newHour] || 0) + count;
+        }
+        const periodCounts = periods.map((p) => ({
+          label: p.label,
+          count: p.range.reduce((sum, h) => sum + (adjustedCounts[h] || 0), 0),
+        }));
+        const maxCount = Math.max(...periodCounts.map((p) => p.count)) || 1;
+        const container = document.getElementById("hour-histogram");
+        container.textContent = "";
+        periodCounts.forEach((p) => {
+          const row = document.createElement("div");
+          row.className = "bar-row";
+          const label = document.createElement("div");
+          label.className = "bar-label";
+          label.textContent = p.label;
+          const track = document.createElement("div");
+          track.className = "bar-track";
+          const fill = document.createElement("div");
+          fill.className = "bar-fill";
+          fill.style.width = (p.count / maxCount) * 100 + "%";
+          fill.style.background = "#8b5cf6";
+          track.appendChild(fill);
+          const value = document.createElement("div");
+          value.className = "bar-value";
+          value.textContent = p.count;
+          row.appendChild(label);
+          row.appendChild(track);
+          row.appendChild(value);
+          container.appendChild(row);
+        });
+      }
+      document.getElementById("timezone-select").addEventListener("change", function () {
+        const customInput = document.getElementById("custom-offset");
+        if (this.value === "custom") {
+          customInput.style.display = "inline-block";
+          customInput.focus();
+        } else {
+          customInput.style.display = "none";
+          updateHourHistogram(parseInt(this.value));
+        }
+      });
+      document.getElementById("custom-offset").addEventListener("change", function () {
+        const offset = parseInt(this.value) + 8;
+        updateHourHistogram(offset);
+      });
+      // 初期表示を東京時間に
+      updateHourHistogram(17);
+    </script>
+  </body>
+</html>
