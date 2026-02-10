@@ -21,7 +21,7 @@ description: TypeScriptコードの記述・レビュー・リファクタリン
 | named export のみ                    | 必須   | フレームワーク要件の場合のみ default export 許容 |
 | interface でオブジェクト型定義       | 推奨   | Union/Intersection/エイリアスは `type`           |
 | 関数引数に `readonly` 付与           | 推奨   | ―                                                |
-| Discriminated Union + 網羅性チェック | 推奨   | ―                                                |
+| Discriminated Union + 網羅性チェック | 推奨   | `ts-pattern` の `match().exhaustive()`           |
 | コメントは「なぜ」のみ               | 推奨   | ―                                                |
 
 ## 必須ルール
@@ -149,33 +149,24 @@ const formatUser = (user: Readonly<User>): string => {
 
 ### Discriminated Union と網羅性チェック
 
-複数の状態を持つデータは Discriminated Union で定義し、`never` で網羅性を保証する。
+複数の状態を持つデータは Discriminated Union で定義し、`ts-pattern` の `match().exhaustive()` で網羅性を保証する。
 
 ```typescript
+import { match } from "ts-pattern";
+
 type AsyncState<T> =
   | { status: "idle" }
   | { status: "loading" }
   | { status: "success"; data: T }
   | { status: "error"; error: Error };
 
-const assertNever = (value: never): never => {
-  throw new Error(`Unexpected value: ${value}`);
-};
-
-const handleState = <T>(state: AsyncState<T>): string => {
-  switch (state.status) {
-    case "idle":
-      return "待機中";
-    case "loading":
-      return "読み込み中";
-    case "success":
-      return JSON.stringify(state.data);
-    case "error":
-      return state.error.message;
-    default:
-      return assertNever(state);
-  }
-};
+const handleState = <T>(state: AsyncState<T>): string =>
+  match(state)
+    .with({ status: "idle" }, () => "待機中")
+    .with({ status: "loading" }, () => "読み込み中")
+    .with({ status: "success" }, ({ data }) => JSON.stringify(data))
+    .with({ status: "error" }, ({ error }) => error.message)
+    .exhaustive();
 ```
 
 ## コメント・例外処理
