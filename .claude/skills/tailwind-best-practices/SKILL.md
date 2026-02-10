@@ -24,7 +24,12 @@ Tailwind のユーティリティクラスを最優先で使用する。カス�
 </div>
 ```
 
-**理由**: Tailwind のユーティリティクラスを使うことで、CSS ファイルの肥大化を防ぎ、クラス名の命名に悩む時間を減らし、デザインの一貫性を保てる。
+**理由**:
+
+- CSS ファイルの肥大化を防ぐ
+- クラス名の命名に悩む時間を減らす
+- デザインの一貫性を保てる
+- スタイルがコンポーネントと同じ場所にあり、影響範囲が明確になる
 
 ## クラスの結合方法
 
@@ -45,7 +50,10 @@ import { cn } from "@/shared/lib/shadcn-utils";
 <div className={["flex items-center gap-2", isActive && "bg-blue-500"].filter(Boolean).join(" ")} />
 ```
 
-**理由**: `cn()` は内部で `clsx` + `tailwind-merge` を使用しており、条件付きクラスの適用と Tailwind クラスの競合解決を同時に行う。テンプレートリテラルや `join` では、`text-red-500` と `text-blue-500` のような競合を解決できない。
+**理由**:
+
+- `cn()` は内部で `clsx` + `tailwind-merge` を使用しており、条件付きクラスの適用と Tailwind クラスの競合解決を同時に行う
+- テンプレートリテラルや `join` では、`text-red-500` と `text-blue-500` のような競合を解決できない
 
 ### 静的なクラスに `cn()` は不要
 
@@ -86,46 +94,34 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 // @theme { --spacing-header: 72px; } → className="h-header"
 ```
 
+**理由**:
+
+- テーマトークンを使えばデザインの一貫性が保たれる
+- 任意値が増えるとデザインシステムの意味が薄れ、保守性が低下する
+
 ## レスポンシブ設計
 
 ### モバイルファーストの原則
 
-ベースにモバイル向けのスタイルを書き、ブレイクポイントで上書きする。
+ベースにモバイル向けのスタイルを書き、ブレイクポイントプレフィクス（`sm:` → `md:` → `lg:` → `xl:`）で段階的に上書きする。
 
 ```tsx
-// ✅ モバイルファースト: 小さい画面がベース
+// ✅ モバイルファースト: 小さい画面がベース → 大きい画面で上書き
 <div className="flex flex-col gap-4 md:flex-row md:gap-8 lg:gap-12" />
 <div className="p-4 md:p-6 lg:p-8" />
 <h1 className="text-2xl md:text-3xl lg:text-4xl" />
 
-// ❌ max-width で逆方向に指定しない
+// ❌ デスクトップファースト: max-width で逆方向に指定しない
 <div className="flex-row max-md:flex-col" />
 ```
 
-**理由**: Tailwind のブレイクポイントは `min-width` ベースで設計されている。モバイルファーストで書くことで、各ブレイクポイントの意図が明確になり、段階的に複雑なレイアウトを構築できる。
+**理由**:
 
-### ブレイクポイントの適用順序
-
-小さい順に指定する。
-
-```tsx
-// ✅ sm → md → lg → xl の順
-<div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" />
-
-// ❌ 順序がバラバラ
-<div className="w-full lg:w-1/4 sm:w-1/2 xl:w-1/5 md:w-1/3" />
-```
+- Tailwind のブレイクポイントは `min-width` ベースで設計されている
+- モバイルファーストで書くことで、各ブレイクポイントの意図が明確になる
+- 段階的に複雑なレイアウトを構築でき、コードの可読性が高い
 
 ## 状態バリアント
-
-### 一般的な優先順序
-
-ベーススタイル → インタラクション状態 → フォーカス状態 → アクティブ状態 → 無効状態の順で指定する。
-
-```tsx
-// ✅ 論理的な順序で指定
-<button className="bg-blue-600 hover:bg-blue-700 focus-visible:ring-2 active:bg-blue-800 disabled:opacity-50" />
-```
 
 ### `focus` より `focus-visible` を優先する
 
@@ -139,74 +135,60 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 <button className="focus:ring-2 focus:ring-blue-500 focus:outline-none" />
 ```
 
-**理由**: `focus-visible` は Web 標準の擬似クラスで、キーボード操作時にのみフォーカススタイルを適用する。これによりマウスユーザーの UX を損なわずにアクセシビリティを確保できる。
+**理由**:
+
+- `focus-visible` は Web 標準の擬似クラスで、キーボード操作時にのみフォーカススタイルを適用する
+- マウスユーザーの UX を損なわずにアクセシビリティを確保できる
 
 ## ダークモード
 
-### プロジェクトのダークモード方式
+### CSS 変数を優先し、`dark:` の記述量を最小化する
 
-本プロジェクトでは `@custom-variant dark (&:is(.dark *))` を使用しているため、`dark:` プレフィクスでダークモードスタイルを指定する。
-
-```tsx
-// ✅ dark: プレフィクスを使用
-<div className="bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100" />
-
-// ✅ CSS 変数を活用してダークモードを自動化
-// テーマで定義された CSS 変数を使えば dark: が不要になる
-<div className="bg-background text-foreground" />
-```
-
-### CSS 変数の活用
-
-ダークモードの色指定は、できるだけ CSS 変数（`bg-background`, `text-foreground` 等）を使用し、`dark:` プレフィクスの記述量を最小化する。
+本プロジェクトでは `@custom-variant dark (&:is(.dark *))` でダークモードを実現している。色指定にはテーマ定義の CSS 変数（`bg-background`, `text-foreground`, `bg-card` 等）を優先し、`dark:` プレフィクスの使用を最小限にする。
 
 ```tsx
 // ✅ CSS 変数でライト/ダーク両対応（dark: 不要）
+<div className="bg-background text-foreground" />
 <div className="bg-card text-card-foreground border-border" />
 
 // ⚠️ 毎回 dark: で個別指定するのは冗長
 <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-200 dark:border-gray-700" />
+
+// ✅ CSS 変数にない色で dark: が必要な場合
+<div className="text-blue-600 dark:text-blue-400" />
 ```
 
-**理由**: CSS 変数はテーマ切り替え時に自動で値が変わるため、コンポーネントごとに `dark:` を書く必要がなくなる。コード量の削減とテーマの一貫性が向上する。
+**理由**:
+
+- CSS 変数はテーマ切り替え時に自動で値が変わるため、コンポーネントごとに `dark:` を書く必要がなくなる
+- コード量の削減とテーマの一貫性が向上する
 
 ## CVA によるバリアント管理
 
-### コンポーネントのバリアントには `class-variance-authority` を使用する
+### 2つ以上のバリアント軸があるコンポーネントには CVA を使用する
 
-同じコンポーネントで複数のスタイルバリエーションがある場合、条件分岐ではなく CVA を使用する。
+同じコンポーネントで複数のスタイルバリエーション（例: variant + size）がある場合、条件分岐ではなく `class-variance-authority` を使用する。
 
 ```tsx
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/shadcn-utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "size-10",
-      },
+// ✅ CVA でバリアントを宣言的に管理
+const buttonVariants = cva("inline-flex items-center justify-center rounded-md font-medium", {
+  variants: {
+    variant: {
+      default: "bg-primary text-primary-foreground hover:bg-primary/90",
+      outline: "border border-input bg-background hover:bg-accent",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
+    size: {
+      default: "h-10 px-4 py-2",
+      sm: "h-9 px-3",
     },
   },
-);
+  defaultVariants: { variant: "default", size: "default" },
+});
 
-interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
-
+// コンポーネントでは cn() で外部 className とマージ
 function Button({ className, variant, size, ...props }: ButtonProps) {
   return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />;
 }
@@ -214,22 +196,21 @@ function Button({ className, variant, size, ...props }: ButtonProps) {
 
 ```tsx
 // ❌ 条件分岐でスタイルを切り替えない
-function Button({ variant, className }: ButtonProps) {
-  return (
-    <button
-      className={cn(
-        "inline-flex items-center justify-center",
-        variant === "default" && "bg-primary text-primary-foreground",
-        variant === "destructive" && "bg-destructive text-destructive-foreground",
-        variant === "outline" && "border border-input bg-background",
-        className,
-      )}
-    />
-  );
-}
+<button
+  className={cn(
+    "inline-flex items-center justify-center",
+    variant === "default" && "bg-primary text-primary-foreground",
+    variant === "outline" && "border border-input bg-background",
+    className,
+  )}
+/>
 ```
 
-**理由**: CVA はバリアントの定義を宣言的に管理でき、型安全性も確保される。条件分岐が増えるほど CVA の恩恵が大きくなる。
+**理由**:
+
+- バリアントの定義を宣言的に管理でき、型安全性も確保される
+- 条件分岐が増えるほど CVA の恩恵が大きくなる
+- shadcn/ui のコンポーネントと設計思想が統一される
 
 ## `@apply` の使用制限
 
@@ -240,13 +221,8 @@ function Button({ variant, className }: ButtonProps) {
 ```css
 /* ❌ @apply でユーティリティをまとめない */
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700;
+  @apply inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white;
 }
-```
-
-```tsx
-// ✅ JSX にユーティリティクラスを直接書く（CVA 推奨）
-<button className="inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" />
 ```
 
 ### `@apply` が許容されるケース
@@ -265,4 +241,16 @@ function Button({ variant, className }: ButtonProps) {
 }
 ```
 
-**理由**: `@apply` を多用するとユーティリティファーストの利点（コロケーション、明示性）が失われる。React コンポーネントでは CVA + `cn()` の組み合わせで同等以上の再利用性を実現できる。
+**理由**:
+
+- `@apply` を多用するとユーティリティファーストの利点（コロケーション、明示性）が失われる
+- React コンポーネントでは CVA + `cn()` の組み合わせで同等以上の再利用性を実現できる
+
+## その他
+
+フォーマッターやリンターで自動化できることはこのドキュメントに含めません。以下はツールに委譲しています：
+
+- **クラスの並び順**: oxfmt（フォーマッター）
+- **ショートハンドの強制**: oxlint（`enforce-shorthand-classes`）
+- **正規クラス名の強制**: oxlint（`enforce-canonical-classes`）
+- **重複・矛盾クラスの検出**: oxlint（`no-duplicate-classes`, `no-conflicting-classes`）
