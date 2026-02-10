@@ -1,11 +1,11 @@
 ---
-name: tailwind-best-practices
-description: Tailwind CSSクラス指定のベストプラクティス。ユーティリティファースト、cn()によるクラス結合、任意値の制限、レスポンシブ設計、状態バリアント、ダークモード、CVA、@apply制限を定義。Tailwindクラスを書く際、レビューする際に使用。
+name: writing-tailwind-css
+description: Tailwind CSSクラス指定のベストプラクティスを定義する。ユーティリティファースト、cn()によるクラス結合、任意値の制限、レスポンシブ設計、状態バリアント、ダークモード、CVA、@apply制限をカバーする。Tailwindクラスの記述やレビュー時に適用される。
 ---
 
 # Tailwind CSS ベストプラクティス
 
-このドキュメントは、Tailwind CSS のクラス指定におけるベストプラクティスを定義します。リンター（oxlint + eslint-plugin-better-tailwindcss）で自動検出できるルール（ショートハンド強制、重複検出、矛盾検出、正規クラス名）は含めず、開発者が判断・実践すべき原則に焦点を当てています。
+リンター（oxlint + eslint-plugin-better-tailwindcss）で自動検出できるルール（ショートハンド強制、重複検出、矛盾検出、正規クラス名）は含めず、開発者が判断・実践すべき原則に焦点を当てる。
 
 ## ユーティリティファースト原則
 
@@ -16,20 +16,7 @@ Tailwind のユーティリティクラスを最優先で使用する。カス�
 <div className="flex items-center gap-4 rounded-lg bg-white p-6 shadow-md">
   <h2 className="text-lg font-semibold text-gray-900">Title</h2>
 </div>
-
-// ❌ カスタム CSS を書かない
-// styles.css: .card { display: flex; align-items: center; ... }
-<div className="card">
-  <h2 className="card-title">Title</h2>
-</div>
 ```
-
-**理由**:
-
-- CSS ファイルの肥大化を防ぐ
-- クラス名の命名に悩む時間を減らす
-- デザインの一貫性を保てる
-- スタイルがコンポーネントと同じ場所にあり、影響範囲が明確になる
 
 ## クラスの結合方法
 
@@ -43,17 +30,9 @@ import { cn } from "@/shared/lib/shadcn-utils";
 // ✅ cn() で結合
 <div className={cn("flex items-center gap-2", isActive && "bg-blue-500", className)} />
 
-// ❌ テンプレートリテラルで結合しない
+// ❌ テンプレートリテラルや join では Tailwind クラスの競合を解決できない
 <div className={`flex items-center gap-2 ${isActive ? "bg-blue-500" : ""} ${className}`} />
-
-// ❌ 配列の join で結合しない
-<div className={["flex items-center gap-2", isActive && "bg-blue-500"].filter(Boolean).join(" ")} />
 ```
-
-**理由**:
-
-- `cn()` は内部で `clsx` + `tailwind-merge` を使用しており、条件付きクラスの適用と Tailwind クラスの競合解決を同時に行う
-- テンプレートリテラルや `join` では、`text-red-500` と `text-blue-500` のような競合を解決できない
 
 ### 静的なクラスに `cn()` は不要
 
@@ -83,7 +62,7 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 
 ### 任意値が許容されるケース
 
-テーマにない値が必要な場合に限り使用する。ただし、頻出する場合は CSS 変数としてテーマに追加することを検討する。
+テーマにない値が必要な場合に限り使用する。頻出する場合は CSS 変数としてテーマに追加を検討する。
 
 ```tsx
 // ✅ テーマにない値を一度だけ使う
@@ -93,11 +72,6 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 // ⚠️ 繰り返し使う値はテーマに追加を検討
 // @theme { --spacing-header: 72px; } → className="h-header"
 ```
-
-**理由**:
-
-- テーマトークンを使えばデザインの一貫性が保たれる
-- 任意値が増えるとデザインシステムの意味が薄れ、保守性が低下する
 
 ## レスポンシブ設計
 
@@ -115,12 +89,6 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 <div className="flex-row max-md:flex-col" />
 ```
 
-**理由**:
-
-- Tailwind のブレイクポイントは `min-width` ベースで設計されている
-- モバイルファーストで書くことで、各ブレイクポイントの意図が明確になる
-- 段階的に複雑なレイアウトを構築でき、コードの可読性が高い
-
 ## 状態バリアント
 
 ### `focus` より `focus-visible` を優先する
@@ -130,15 +98,7 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 ```tsx
 // ✅ キーボードフォーカス時のみリングを表示
 <button className="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none" />
-
-// ❌ マウスクリック時にもリングが表示される
-<button className="focus:ring-2 focus:ring-blue-500 focus:outline-none" />
 ```
-
-**理由**:
-
-- `focus-visible` は Web 標準の擬似クラスで、キーボード操作時にのみフォーカススタイルを適用する
-- マウスユーザーの UX を損なわずにアクセシビリティを確保できる
 
 ## ダークモード
 
@@ -157,11 +117,6 @@ Tailwind のデザイントークン（テーマ値）が存在する場合は�
 // ✅ CSS 変数にない色で dark: が必要な場合
 <div className="text-blue-600 dark:text-blue-400" />
 ```
-
-**理由**:
-
-- CSS 変数はテーマ切り替え時に自動で値が変わるため、コンポーネントごとに `dark:` を書く必要がなくなる
-- コード量の削減とテーマの一貫性が向上する
 
 ## CVA によるバリアント管理
 
@@ -194,36 +149,11 @@ function Button({ className, variant, size, ...props }: ButtonProps) {
 }
 ```
 
-```tsx
-// ❌ 条件分岐でスタイルを切り替えない
-<button
-  className={cn(
-    "inline-flex items-center justify-center",
-    variant === "default" && "bg-primary text-primary-foreground",
-    variant === "outline" && "border border-input bg-background",
-    className,
-  )}
-/>
-```
-
-**理由**:
-
-- バリアントの定義を宣言的に管理でき、型安全性も確保される
-- 条件分岐が増えるほど CVA の恩恵が大きくなる
-- shadcn/ui のコンポーネントと設計思想が統一される
-
 ## `@apply` の使用制限
 
 ### 原則として `@apply` は使わない
 
-`@apply` はコンポーネントの JSX 内にユーティリティクラスを直接書くことで代替する。
-
-```css
-/* ❌ @apply でユーティリティをまとめない */
-.btn-primary {
-  @apply inline-flex items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-white;
-}
-```
+コンポーネントの JSX 内にユーティリティクラスを直接書くことで代替する。
 
 ### `@apply` が許容されるケース
 
@@ -241,16 +171,11 @@ function Button({ className, variant, size, ...props }: ButtonProps) {
 }
 ```
 
-**理由**:
+## ツール委譲
 
-- `@apply` を多用するとユーティリティファーストの利点（コロケーション、明示性）が失われる
-- React コンポーネントでは CVA + `cn()` の組み合わせで同等以上の再利用性を実現できる
+以下はフォーマッター/リンターに委譲：
 
-## その他
-
-フォーマッターやリンターで自動化できることはこのドキュメントに含めません。以下はツールに委譲しています：
-
-- **クラスの並び順**: oxfmt（フォーマッター）
-- **ショートハンドの強制**: oxlint（`enforce-shorthand-classes`）
-- **正規クラス名の強制**: oxlint（`enforce-canonical-classes`）
-- **重複・矛盾クラスの検出**: oxlint（`no-duplicate-classes`, `no-conflicting-classes`）
+- **クラスの並び順**: oxfmt
+- **ショートハンド強制**: oxlint（`enforce-shorthand-classes`）
+- **正規クラス名強制**: oxlint（`enforce-canonical-classes`）
+- **重複・矛盾検出**: oxlint（`no-duplicate-classes`, `no-conflicting-classes`）
