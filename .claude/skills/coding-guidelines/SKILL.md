@@ -9,20 +9,20 @@ description: TypeScriptコーディング規約。関数定義スタイル、禁
 
 ## ルールサマリー
 
-| ルール | 強制力 | 代替手段 |
-|---|---|---|
-| `const` + アロー関数で関数定義 | 必須 | `.tsx`のジェネリクスは `<T,>` で回避 |
-| `any` 禁止 | 必須 | `unknown` + 型ガード |
-| `enum` 禁止 | 必須 | Union Types / `as const` |
-| `as` 型アサーション禁止 | 必須 | `satisfies` / 型ガード（`as const` は許容）|
-| 非nullアサーション `!` 禁止 | 必須 | `?.` / `??` / narrowing |
-| `@ts-ignore` 禁止 | 必須 | `@ts-expect-error` + 理由コメント |
-| magic number 禁止 | 必須 | 名前付き定数 |
-| named export のみ | 必須 | フレームワーク要件の場合のみ default export 許容 |
-| interface でオブジェクト型定義 | 推奨 | Union/Intersection/エイリアスは `type` |
-| 関数引数に `readonly` 付与 | 推奨 | ― |
-| Discriminated Union + 網羅性チェック | 推奨 | ― |
-| コメントは「なぜ」のみ | 推奨 | ― |
+| ルール                               | 強制力 | 代替手段                                         |
+| ------------------------------------ | ------ | ------------------------------------------------ |
+| `const` + アロー関数で関数定義       | 必須   | `.tsx`のジェネリクスは `<T,>` で回避             |
+| `any` 禁止                           | 必須   | `unknown` + 型ガード                             |
+| `enum` 禁止                          | 必須   | Union Types / `as const`                         |
+| `as` 型アサーション禁止              | 必須   | `satisfies` / 型ガード（`as const` は許容）      |
+| 非nullアサーション `!` 禁止          | 必須   | `?.` / `??` / narrowing                          |
+| `@ts-ignore` 禁止                    | 必須   | `@ts-expect-error` + 理由コメント                |
+| magic number 禁止                    | 必須   | 名前付き定数                                     |
+| named export のみ                    | 必須   | フレームワーク要件の場合のみ default export 許容 |
+| interface でオブジェクト型定義       | 推奨   | Union/Intersection/エイリアスは `type`           |
+| 関数引数に `readonly` 付与           | 推奨   | ―                                                |
+| Discriminated Union + 網羅性チェック | 推奨   | ―                                                |
+| コメントは「なぜ」のみ               | 推奨   | ―                                                |
 
 ## 関数定義スタイル
 
@@ -44,7 +44,7 @@ export function calculateTotal(items: Item[]): number {
 
 ```typescript
 // ✅ .tsx 内のジェネリクス: カンマで曖昧さを回避
-export const identity = <T,>(value: T): T => value;
+export const identity = <T>(value: T): T => value;
 ```
 
 > 再代入防止、hoisting 回避、`this` の束縛なし、スタイルの統一
@@ -74,7 +74,12 @@ const SIZES = { SM: "sm", MD: "md", LG: "lg" } as const;
 type Size = (typeof SIZES)[keyof typeof SIZES];
 
 // ❌
-enum Status { Idle, Loading, Success, Error }
+enum Status {
+  Idle,
+  Loading,
+  Success,
+  Error,
+}
 ```
 
 > ランタイムコード生成の回避、tree-shaking 効率化
@@ -161,25 +166,28 @@ export default Page;
 
 ## 命名規約
 
-| 対象 | スタイル |
-|---|---|
-| 変数 / 関数 | `camelCase` |
-| 型 / インターフェース / クラス | `PascalCase` |
-| 定数 | `UPPER_SNAKE_CASE` |
-| ファイル名 | プロジェクト慣習に従う（React コンポーネントは `PascalCase.tsx`）|
+| 対象                           | スタイル                                                          |
+| ------------------------------ | ----------------------------------------------------------------- |
+| 変数 / 関数                    | `camelCase`                                                       |
+| 型 / インターフェース / クラス | `PascalCase`                                                      |
+| 定数                           | `UPPER_SNAKE_CASE`                                                |
+| ファイル名                     | プロジェクト慣習に従う（React コンポーネントは `PascalCase.tsx`） |
 
 ## Type vs Interface
 
-| 用途 | 使用 |
-|---|---|
-| オブジェクト型の定義 | `interface`（拡張性・extends に優れる）|
-| Union / Intersection Types | `type` |
-| プリミティブ型エイリアス | `type` |
+| 用途                       | 使用                                    |
+| -------------------------- | --------------------------------------- |
+| オブジェクト型の定義       | `interface`（拡張性・extends に優れる） |
+| Union / Intersection Types | `type`                                  |
+| プリミティブ型エイリアス   | `type`                                  |
 
 ```typescript
-interface User { id: string; name: string; }          // オブジェクト型
-type Status = "idle" | "loading" | "success";          // Union
-type UserId = string;                                   // エイリアス
+interface User {
+  id: string;
+  name: string;
+} // オブジェクト型
+type Status = "idle" | "loading" | "success"; // Union
+type UserId = string; // エイリアス
 ```
 
 ## `readonly` の活用
