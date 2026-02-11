@@ -1,6 +1,6 @@
 ---
-name: coding-guidelines
-description: TypeScriptコーディング規約。関数定義スタイル、禁止事項（any、enum、as、!、@ts-ignore、magic number）、命名規約、export/import、型定義、readonly、Discriminated Union、コメント、例外処理を定義。TypeScriptコードを書く際、レビューする際、リファクタリングする際に使用。
+name: writing-typescript
+description: TypeScriptコードの記述・レビュー・リファクタリング時に、プロジェクト固有のコーディング規約を適用する。関数定義スタイル、型安全性の禁止パターン（any, enum, as, !, @ts-ignore, magic number）、命名規約、export規則、readonly活用、Discriminated Unionパターン、コメント・例外処理の方針を含む。
 ---
 
 # TypeScript コーディング規約
@@ -21,10 +21,12 @@ description: TypeScriptコーディング規約。関数定義スタイル、禁
 | named export のみ                    | 必須   | フレームワーク要件の場合のみ default export 許容 |
 | interface でオブジェクト型定義       | 推奨   | Union/Intersection/エイリアスは `type`           |
 | 関数引数に `readonly` 付与           | 推奨   | ―                                                |
-| Discriminated Union + 網羅性チェック | 推奨   | ―                                                |
+| Discriminated Union + 網羅性チェック | 推奨   | `ts-pattern` の `match().exhaustive()`           |
 | コメントは「なぜ」のみ               | 推奨   | ―                                                |
 
-## 関数定義スタイル
+## 必須ルール
+
+### 関数定義スタイル
 
 `function` 宣言ではなく `const` + アロー関数を使用する。
 
@@ -47,21 +49,9 @@ export function calculateTotal(items: Item[]): number {
 export const identity = <T>(value: T): T => value;
 ```
 
-> 再代入防止、hoisting 回避、`this` の束縛なし、スタイルの統一
+### `any` 禁止
 
-## 禁止事項
-
-### `any` 禁止 → `unknown` + 型ガード
-
-```typescript
-// ✅
-const handleError = (error: unknown) => {
-  if (error instanceof Error) console.error(error.message);
-};
-
-// ❌
-const handleError = (error: any) => { ... };
-```
+`unknown` + 型ガードで代替する。
 
 ### `enum` 禁止 → Union Types / `as const`
 
@@ -72,17 +62,7 @@ type Status = "idle" | "loading" | "success" | "error";
 // ✅ as const（値と型の両方が必要な場合）
 const SIZES = { SM: "sm", MD: "md", LG: "lg" } as const;
 type Size = (typeof SIZES)[keyof typeof SIZES];
-
-// ❌
-enum Status {
-  Idle,
-  Loading,
-  Success,
-  Error,
-}
 ```
-
-> ランタイムコード生成の回避、tree-shaking 効率化
 
 ### `as` 型アサーション禁止 → `satisfies` / 型ガード
 
@@ -99,57 +79,21 @@ const isUser = (value: unknown): value is User => {
 
 // ✅ as const は許容
 const ROLES = ["admin", "editor", "viewer"] as const;
-
-// ❌
-const user = data as User;
 ```
 
-> `as` は型チェックをバイパスし、ランタイムエラーの原因になる
+### 非nullアサーション `!` 禁止
 
-### 非nullアサーション `!` 禁止 → `?.` / `??` / narrowing
+`?.` / `??` / narrowing で代替する。
 
-```typescript
-// ✅
-const userName = user?.name ?? "Unknown";
+### `@ts-ignore` 禁止
 
-// ✅ narrowing
-const el = document.getElementById(id);
-if (!el) throw new Error(`Element not found: ${id}`);
-return el;
+`@ts-expect-error` + 理由コメントで代替する。
 
-// ❌
-const userName = user!.name;
-```
+### magic number 禁止
 
-> 実行時の null/undefined 保証がないため、明示的チェックで代替
+名前付き定数（`UPPER_SNAKE_CASE`）で置き換える。
 
-### `@ts-ignore` 禁止 → `@ts-expect-error` + 理由
-
-```typescript
-// ✅
-// @ts-expect-error: ライブラリの型定義が新オプションに未対応
-someLibrary.doSomething({ newOption: true });
-
-// ❌
-// @ts-ignore
-someLibrary.doSomething({ newOption: true });
-```
-
-> `@ts-expect-error` はエラー解消時に不要な抑制として警告が出るため、検知・削除できる
-
-### magic number 禁止 → 名前付き定数
-
-```typescript
-// ✅
-const MAX_RETRY_COUNT = 3;
-const DEFAULT_TIMEOUT_MS = 5000;
-
-// ❌
-if (retryCount < 3) { ... }
-setTimeout(callback, 5000);
-```
-
-## Export ルール
+### Export ルール
 
 named export のみ使用。default export は禁止。
 
@@ -164,16 +108,15 @@ const Page = () => { return <div>...</div>; };
 export default Page;
 ```
 
-## 命名規約
+## 推奨パターン
 
-| 対象                           | スタイル                                                          |
-| ------------------------------ | ----------------------------------------------------------------- |
-| 変数 / 関数                    | `camelCase`                                                       |
-| 型 / インターフェース / クラス | `PascalCase`                                                      |
-| 定数                           | `UPPER_SNAKE_CASE`                                                |
-| ファイル名                     | プロジェクト慣習に従う（React コンポーネントは `PascalCase.tsx`） |
+### 命名規約
 
-## Type vs Interface
+| 対象       | スタイル                                                          |
+| ---------- | ----------------------------------------------------------------- |
+| ファイル名 | プロジェクト慣習に従う（React コンポーネントは `PascalCase.tsx`） |
+
+### Type vs Interface
 
 | 用途                       | 使用                                    |
 | -------------------------- | --------------------------------------- |
@@ -190,7 +133,7 @@ type Status = "idle" | "loading" | "success"; // Union
 type UserId = string; // エイリアス
 ```
 
-## `readonly` の活用
+### `readonly` の活用
 
 関数が引数を変更しない場合、`readonly` で不変性を明示する。
 
@@ -204,28 +147,31 @@ const formatUser = (user: Readonly<User>): string => {
 };
 ```
 
-> 意図しないミュータブル操作をコンパイル時に検出できる
+### Discriminated Union と網羅性チェック
 
-## Discriminated Union と網羅性チェック
-
-複数の状態を持つデータは Discriminated Union で定義し、`never` で網羅性を保証する。
+複数の状態を持つデータは Discriminated Union で定義し、`ts-pattern` の `match().exhaustive()` で網羅性を保証する。
 
 ```typescript
+import { match } from "ts-pattern";
+
 type AsyncState<T> =
   | { status: "idle" }
   | { status: "loading" }
   | { status: "success"; data: T }
   | { status: "error"; error: Error };
 
-const assertNever = (value: never): never => {
-  throw new Error(`Unexpected value: ${value}`);
-};
-
-// switch の default で assertNever を呼ぶと、
-// 新しい status が追加された際にコンパイルエラーで検知できる
+const handleState = <T>(state: AsyncState<T>): string =>
+  match(state)
+    .with({ status: "idle" }, () => "待機中")
+    .with({ status: "loading" }, () => "読み込み中")
+    .with({ status: "success" }, ({ data }) => JSON.stringify(data))
+    .with({ status: "error" }, ({ error }) => error.message)
+    .exhaustive();
 ```
 
-## コメント規約
+## コメント・例外処理
+
+### コメント規約
 
 コメントは「なぜ」のみ記載し、「何を」は書かない。ADR に記録済みの決定はコード内で繰り返さない。
 
@@ -237,21 +183,7 @@ const RESET_TOKEN_EXPIRY_MS = 60 * 60 * 1000;
 const RESET_TOKEN_EXPIRY_MS = 60 * 60 * 1000;
 ```
 
-## 例外処理
+### 例外処理
 
 外部API・ファイルI/O・DB操作・JSONパース等、例外が発生しうる箇所では try-catch を使用する。
-
-```typescript
-const fetchUser = async (userId: string): Promise<User> => {
-  try {
-    const response = await fetch(`/api/users/${userId}`);
-    if (!response.ok) throw new Error(`Failed to fetch user: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error fetching user ${userId}:`, error.message);
-    }
-    throw error;
-  }
-};
-```
+catch節では `error: unknown` として型ガードを行う。
