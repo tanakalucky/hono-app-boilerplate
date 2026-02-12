@@ -23,6 +23,10 @@
       "rangeStrategy": "bump"
     },
     {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
       "matchPackageNames": ["wrangler**", "@cloudflare/**"],
       "groupName": "Cloudflare"
     },
@@ -35,7 +39,7 @@
       "groupName": "Vitest"
     },
     {
-      "matchBaseBranches": ["tailwind**", "@tailwind**", "tw-**"],
+      "matchPackageNames": ["tailwind**", "@tailwind**", "tw-**"],
       "groupName": "TailwindCSS"
     }
   ]
