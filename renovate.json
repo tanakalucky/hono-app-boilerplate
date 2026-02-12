@@ -4,6 +4,7 @@
   "timezone": "Asia/Tokyo",
   "schedule": ["every weekend"],
   "labels": ["renovate"],
+  "rangeStrategy": "bump",
   "patch": {
     "automerge": true
   },
@@ -14,17 +15,16 @@
   "packageRules": [
     {
       "matchPackageNames": ["oxlint**"],
-      "groupName": "Linter",
-      "rangeStrategy": "bump"
+      "groupName": "Linter"
     },
     {
       "matchPackageNames": ["oxfmt**"],
-      "groupName": "Formatter",
-      "rangeStrategy": "bump"
+      "groupName": "Formatter"
     },
     {
       "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions"
+      "groupName": "GitHub Actions",
+      "rangeStrategy": "auto"
     },
     {
       "matchPackageNames": ["wrangler**", "@cloudflare/**"],
