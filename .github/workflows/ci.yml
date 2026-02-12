@@ -33,7 +33,7 @@ jobs:
         run: bun run test
 
       - name: Type check
-        run: bunx tsgo --noEmit
+        run: bun typecheck
 
       - name: Build
         run: bun run build
