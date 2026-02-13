@@ -1,4 +1,4 @@
-name: CI
+name: Test & Validate
 
 on:
   push:
@@ -63,7 +63,7 @@ jobs:
       - name: Build
         run: bun run build
 
-  deploy-preview:
+  validate-deploy:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'pull_request'
