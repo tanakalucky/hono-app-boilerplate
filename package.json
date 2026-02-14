@@ -4,9 +4,9 @@
   "description": "A template for building a React application with Vite, Hono, and Cloudflare Workers",
   "type": "module",
   "scripts": {
-    "build": "bun tsgo -b && vite build",
+    "build": "vite build",
     "cf-typegen": "wrangler types",
-    "check": "bun tsgo && vite build && wrangler deploy --dry-run",
+    "check": "bun run typecheck && bun run build && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "vite",
     "preview": "bun run build && vite preview",
@@ -16,7 +16,7 @@
     "format": "oxfmt .",
     "ui:add": "bun run scripts/shadcn-add.ts",
     "ui:organize": "bun run scripts/organize-ui.ts",
-    "typecheck": "bun tsgo"
+    "typecheck": "bun tsgo -b"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
