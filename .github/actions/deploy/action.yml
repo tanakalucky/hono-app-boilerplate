@@ -33,7 +33,7 @@ runs:
       shell: bash
 
     - name: Build
-      run: bun run build
+      run: bun build
       shell: bash
 
     - name: Deploy
