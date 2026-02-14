@@ -6,10 +6,10 @@
   "scripts": {
     "build": "vite build",
     "cf-typegen": "wrangler types",
-    "check": "bun typecheck && bun build && wrangler deploy --dry-run",
+    "check": "bun typecheck && bun run build && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "vite",
-    "preview": "bun build && vite preview",
+    "preview": "bun run build && vite preview",
     "test": "vitest --project unit & vitest --project browser",
     "lint": "oxlint --type-aware --fix",
     "lint:ci": "oxlint --type-aware",
