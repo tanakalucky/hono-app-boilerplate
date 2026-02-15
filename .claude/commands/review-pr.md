@@ -1,11 +1,20 @@
 ---
-allowed-tools: Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*),Bash(gh api:*),Bash(jq:*),WebFetch,WebSearch,mcp__github_inline_comment__create_inline_comment
+allowed-tools: Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*),Bash(gh api:*),Bash(jq:*),mcp__github_inline_comment__create_inline_comment
 description: 5つの観点 (品質、パフォーマンス、テスト、ドキュメント、セキュリティ) からPRを包括的にレビューする
 argument-hint: [owner/repo] [pr-number]
 ---
 
-REPO: $1
-PR NUMBER: $2
+## 引数の解決
+
+このコマンドは2つの引数を受け取るが、いずれも省略可能である。
+
+- 第1引数 (`$1`): リポジトリ（`owner/repo` 形式）
+- 第2引数 (`$2`): PR番号
+
+引数が指定されている場合はその値を使用する。
+引数が指定されていない場合（空文字列の場合）は、カレントリポジトリのカレントブランチに対応するPRとして扱う。具体的には `gh pr view` を引数なしで実行してリポジトリとPR番号を自動取得する。
+
+以降の手順では、解決されたリポジトリを REPO、解決されたPR番号を PR_NUMBER として参照する。
 
 ## ステップ 1: プロジェクトルールの読み込み
 
@@ -17,10 +26,16 @@ CLAUDE.md が存在しない場合はこのステップをスキップする。
 
 以下のコマンドでPRの概要情報を取得する:
 
-```
-gh pr view $2 --repo $1
-gh pr diff $2 --repo $1
-```
+- 引数が指定されている場合:
+  ```
+  gh pr view $2 --repo $1
+  gh pr diff $2 --repo $1
+  ```
+- 引数が省略されている場合:
+  ```
+  gh pr view
+  gh pr diff
+  ```
 
 PR のタイトル、説明、変更ファイル一覧、差分を取得し、ステップ3の各サブエージェントに渡す前提知識とする。
 

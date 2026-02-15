@@ -5,7 +5,7 @@ on:
     types: [opened]
     # synchronize を意図的に除外している
     # 修正pushのたびにレビューが走る問題を防止する
-    # 再レビューが必要な場合は @claude /review-pr で明示的に実行すること
+    # 再レビューが必要な場合は PRコメントで @claude /review-pr を実行すること（引数不要）
 
 jobs:
   claude-review:
