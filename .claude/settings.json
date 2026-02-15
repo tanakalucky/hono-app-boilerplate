@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle '処理完了' -message 'すべてのタスクが終了しました' -sound default"
+            "command": "terminal-notifier -title 'Claude Code' -subtitle '処理完了' -message 'すべてのタスクが終了しました' -sound default -activate dev.zed.Zed"
           }
         ]
       }
@@ -47,7 +47,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle '権限要求' -message '許可を行ってください' -sound default"
+            "command": "terminal-notifier -title 'Claude Code' -subtitle '権限要求' -message '許可を行ってください' -sound default　-activate dev.zed.Zed"
           }
         ]
       }
