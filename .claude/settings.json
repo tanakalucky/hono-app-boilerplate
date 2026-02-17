@@ -5,15 +5,15 @@
   },
   "permissions": {
     "allow": [
-      "Bash(git *)",
-      "Bash(bun *)",
-      "Bash(bunx *)",
-      "Bash(ls *)",
+      "Bash(git:*)",
+      "Bash(bun:*)",
+      "Bash(bunx:*)",
+      "Bash(ls:*)",
       "Bash(pwd)",
-      "Bash(which *)",
-      "Bash(wc *)",
+      "Bash(which:*)",
+      "Bash(wc:*)",
       "Bash(env)",
-      "Bash(gh *)",
+      "Bash(gh:*)",
       "mcp__serena",
       "mcp__context7"
     ]
