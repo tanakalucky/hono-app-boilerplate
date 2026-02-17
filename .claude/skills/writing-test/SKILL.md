@@ -27,10 +27,10 @@ src/react-app/shared/lib/
 
 ### 命名パターン
 
-| 種別     | パターン             | Vitest project |
-| -------- | -------------------- | -------------- |
-| ユニット | `*.unit.test.ts`     | unit           |
-| ブラウザ | `*.browser.test.tsx` | browser        |
+| 種別     | パターン                                   | Vitest project |
+| -------- | ------------------------------------------ | -------------- |
+| ユニット | `*.unit.test.ts` / `*.unit.test.tsx`       | unit           |
+| ブラウザ | `*.browser.test.tsx` / `*.browser.test.ts` | browser        |
 
 ### describe / it の記述
 
@@ -144,9 +144,12 @@ it("ユーザー登録に成功すると確認メールが送信される", asyn
 ```typescript
 // ❌ 内部メソッドの呼び出し順序をテスト（リファクタで壊れる）
 it("処理順序を確認する", () => {
-  const spy = vi.spyOn(service, "validate");
+  const validateSpy = vi.spyOn(service, "validate");
+  const saveSpy = vi.spyOn(service, "save");
   service.process(data);
-  expect(spy).toHaveBeenCalledBefore(vi.spyOn(service, "save"));
+  expect(validateSpy).toHaveBeenCalled();
+  expect(saveSpy).toHaveBeenCalled();
+  // 呼び出し順序を検証しようとしている（実装詳細への依存）
 });
 
 // ✅ 結果だけを確認
@@ -192,7 +195,6 @@ expect(result).toEqual({ id: "1", name: "テストユーザー" });
 - ブラウザAPIが必要なテスト（localStorage, fetch等）
 
 ```tsx
-import { page } from "@vitest/browser/context";
 import { render } from "vitest-browser-react";
 
 it("ボタンクリックでカウンターが増加する", async () => {
