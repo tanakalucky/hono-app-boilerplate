@@ -47,7 +47,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "terminal-notifier -title 'Claude Code' -subtitle '権限要求' -message '許可を行ってください' -sound default　-activate dev.zed.Zed"
+            "command": "terminal-notifier -title 'Claude Code' -subtitle '権限要求' -message '許可を行ってください' -sound default -activate dev.zed.Zed"
           }
         ]
       }
