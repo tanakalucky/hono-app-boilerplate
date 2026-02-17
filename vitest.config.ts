@@ -18,7 +18,7 @@ export default defineConfig({
           globals: true,
           name: "unit",
           environment: "node",
-          include: ["**/*.unit.{test,spec}.{ts,tsx}"],
+          include: ["**/*.unit.test.{ts,tsx}"],
         },
       },
       {
@@ -28,7 +28,7 @@ export default defineConfig({
           },
         },
         test: {
-          include: ["**/*.browser.{test,spec}.{ts,tsx}"],
+          include: ["**/*.browser.test.{ts,tsx}"],
           name: "browser",
           globals: true,
           browser: {
