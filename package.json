@@ -32,8 +32,8 @@
     "react-dom": "19.2.4",
     "shadcn": "^3.8.5",
     "sonner": "^2.0.7",
-    "tailwind-merge": "^3.4.1",
-    "tailwindcss": "^4.1.18",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.0",
     "ts-pattern": "^5.9.0",
     "vaul": "^1.1.2",
     "wouter": "^3.9.0"
