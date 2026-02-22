@@ -9,14 +9,14 @@
     "check": "bun typecheck && bun run build && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "vite",
-    "preview": "bun run build && vite preview",
-    "test": "vitest --project unit & vitest --project browser",
+    "format": "oxfmt .",
     "lint": "oxlint --type-aware --fix",
     "lint:ci": "oxlint --type-aware",
-    "format": "oxfmt .",
+    "preview": "bun run build && vite preview",
+    "test": "vitest --project unit & vitest --project browser",
+    "typecheck": "bun tsgo -b --noEmit",
     "ui:add": "bun run scripts/shadcn-add.ts",
-    "ui:organize": "bun run scripts/organize-ui.ts",
-    "typecheck": "bun tsgo -b --noEmit"
+    "ui:organize": "bun run scripts/organize-ui.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

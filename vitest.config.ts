@@ -1,7 +1,8 @@
+import path from "node:path";
+
+import { playwright } from "@vitest/browser-playwright";
 /// <reference types="vitest" />
 import { defineConfig } from "vitest/config";
-import { playwright } from "@vitest/browser-playwright";
-import path from "node:path";
 
 export default defineConfig({
   test: {
