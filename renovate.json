@@ -6,14 +6,16 @@
   "schedule": ["every weekend"],
   "labels": ["renovate"],
   "rangeStrategy": "bump",
-  "patch": {
-    "automerge": true
-  },
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 5am on monday"]
   },
   "packageRules": [
+    {
+      "description": "Automerge minor and patch updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
     {
       "matchPackageNames": ["oxlint**"],
       "groupName": "Linter"
