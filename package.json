@@ -7,6 +7,7 @@
     "build": "vite build",
     "cf-typegen": "wrangler types",
     "check": "bun typecheck && bun run build && wrangler deploy --dry-run",
+    "claude:copy": "bun run scripts/copy-claude-config.ts",
     "deploy": "wrangler deploy",
     "dev": "vite",
     "format": "oxfmt .",
