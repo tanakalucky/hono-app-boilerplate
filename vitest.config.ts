@@ -1,7 +1,6 @@
 import path from "node:path";
 
 import { playwright } from "@vitest/browser-playwright";
-/// <reference types="vitest" />
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
