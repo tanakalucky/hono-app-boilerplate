@@ -1,82 +1,63 @@
-import { Component, type ErrorInfo, type ReactNode } from "react";
+import { type ReactNode, useCallback, useState } from "react";
+import { type FallbackProps, ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
 }
 
-interface State {
-  hasError: boolean;
-  error?: Error;
-}
-
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
+const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) {
+    return error.message;
   }
+  return String(error);
+};
 
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
-  }
+const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
-  }
+  return (
+    <div className="rounded-lg border border-red-400 bg-red-50 p-5 text-red-700">
+      <h2 className="text-lg font-semibold">Something went wrong</h2>
 
-  render() {
-    if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
+      <p className="mt-1">An error occurred while rendering this component.</p>
+
+      <details className="mt-2.5" open={isOpen} onToggle={(e) => setIsOpen(e.currentTarget.open)}>
+        <summary className="cursor-pointer">Error details</summary>
+        <pre className="mt-2.5 overflow-auto rounded bg-gray-100 p-2.5">
+          {getErrorMessage(error)}
+        </pre>
+      </details>
+
+      <button
+        type="button"
+        onClick={resetErrorBoundary}
+        className="mt-2.5 cursor-pointer rounded bg-red-400 px-4 py-2 text-white hover:bg-red-500"
+      >
+        Try again
+      </button>
+    </div>
+  );
+};
+
+const onError = (error: unknown) => {
+  console.error("ErrorBoundary caught an error:", error);
+};
+
+export const ErrorBoundary = ({ children, fallback }: Props) => {
+  const renderFallback = useCallback(
+    (props: FallbackProps) => {
+      if (fallback) {
+        return <>{fallback}</>;
       }
+      return <ErrorFallback {...props} />;
+    },
+    [fallback],
+  );
 
-      return (
-        <div
-          style={{
-            padding: "20px",
-            border: "1px solid #ff6b6b",
-            borderRadius: "8px",
-            backgroundColor: "#fff5f5",
-            color: "#c92a2a",
-          }}
-        >
-          <h2>Something went wrong</h2>
-          <p>An error occurred while rendering this component.</p>
-          {this.state.error && (
-            <details style={{ marginTop: "10px" }}>
-              <summary>Error details</summary>
-              <pre
-                style={{
-                  marginTop: "10px",
-                  padding: "10px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "4px",
-                  overflow: "auto",
-                }}
-              >
-                {this.state.error.message}
-              </pre>
-            </details>
-          )}
-          <button
-            type="button"
-            onClick={() => this.setState({ hasError: false, error: undefined })}
-            style={{
-              marginTop: "10px",
-              padding: "8px 16px",
-              backgroundColor: "#ff6b6b",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            Try again
-          </button>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
+  return (
+    <ReactErrorBoundary fallbackRender={renderFallback} onError={onError}>
+      {children}
+    </ReactErrorBoundary>
+  );
+};
