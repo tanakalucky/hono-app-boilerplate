@@ -3,13 +3,14 @@
   "extends": ["config:recommended"],
   "branchNameStrict": true,
   "timezone": "Asia/Tokyo",
-  "schedule": ["every weekend"],
   "labels": ["renovate"],
   "rangeStrategy": "bump",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 5am on monday"]
   },
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "packageRules": [
     {
       "description": "Automerge minor and patch updates",
