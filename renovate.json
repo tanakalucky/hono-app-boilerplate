@@ -19,32 +19,45 @@
     },
     {
       "matchPackageNames": ["oxlint**"],
-      "groupName": "Linter"
+      "groupName": "Linter",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
       "matchPackageNames": ["oxfmt**"],
-      "groupName": "Formatter"
+      "groupName": "Formatter",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions",
-      "rangeStrategy": "auto"
+      "rangeStrategy": "auto",
+      "automerge": true
     },
     {
       "matchPackageNames": ["wrangler**", "@cloudflare/**"],
-      "groupName": "Cloudflare"
+      "groupName": "Cloudflare",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
       "matchPackageNames": ["vite", "@vitejs**"],
-      "groupName": "Vite"
+      "groupName": "Vite",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
       "matchPackageNames": ["vitest**", "@vitest**"],
-      "groupName": "Vitest"
+      "groupName": "Vitest",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     },
     {
       "matchPackageNames": ["tailwind**", "@tailwind**", "tw-**"],
-      "groupName": "TailwindCSS"
+      "groupName": "TailwindCSS",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
     }
   ]
 }
