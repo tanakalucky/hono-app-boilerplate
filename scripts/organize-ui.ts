@@ -9,7 +9,7 @@
 import { readdir, readFile, rename, mkdir, writeFile, stat } from "node:fs/promises";
 import { join, parse } from "node:path";
 
-const UI_DIR = "src/react-app/shared/ui";
+const UI_DIR = "src/shared/ui";
 
 /**
  * ファイル名をPascalCaseに変換
