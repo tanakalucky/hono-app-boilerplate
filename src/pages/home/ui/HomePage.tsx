@@ -2,12 +2,10 @@ import viteLogo from "/vite.svg";
 import { useState } from "react";
 
 import cloudflareLogo from "@/shared/assets/Cloudflare_Logo.svg";
-import honoLogo from "@/shared/assets/hono.svg";
 import reactLogo from "@/shared/assets/react.svg";
 
 export function HomePage() {
   const [count, setCount] = useState(0);
-  const [name, setName] = useState("unknown");
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4 md:p-8">
@@ -30,14 +28,6 @@ export function HomePage() {
           <img src={reactLogo} className="h-16 p-4 md:h-24 md:p-6" alt="React logo" />
         </a>
         <a
-          href="https://hono.dev/"
-          target="_blank"
-          rel="noreferrer"
-          className="transition-all duration-300 hover:drop-shadow-[0_0_2em_rgba(246,130,31,0.67)]"
-        >
-          <img src={honoLogo} className="h-16 p-4 md:h-24 md:p-6" alt="Hono logo" />
-        </a>
-        <a
           href="https://workers.cloudflare.com/"
           target="_blank"
           rel="noreferrer"
@@ -49,7 +39,7 @@ export function HomePage() {
 
       {/* Title */}
       <h1 className="mb-8 text-center text-3xl font-bold md:text-4xl lg:text-5xl">
-        Vite + React + Hono + Cloudflare
+        Vite + React + Cloudflare
       </h1>
 
       {/* Counter card */}
@@ -68,30 +58,6 @@ export function HomePage() {
             pages/home/ui/HomePage.tsx
           </code>
           and save to test HMR
-        </p>
-      </div>
-
-      {/* API card */}
-      <div className="mb-8 w-full max-w-2xl rounded-xl bg-gray-800/50 p-6 shadow-lg backdrop-blur-sm md:p-8">
-        <button
-          type="button"
-          onClick={() => {
-            fetch("/api/")
-              .then((res) => res.json() as Promise<{ name: string }>)
-              .then((data) => setName(data.name))
-              .catch((error) => console.error(error));
-          }}
-          aria-label="get name"
-          className="mb-4 w-full rounded-lg bg-indigo-600 px-6 py-3 font-medium text-white shadow-md transition-all duration-200 hover:bg-indigo-700 hover:shadow-lg active:bg-indigo-800 md:w-auto"
-        >
-          Name from API is: {name}
-        </button>
-        <p className="text-sm text-gray-300 md:text-base">
-          Edit
-          <code className="rounded bg-gray-700/70 px-2 py-1 font-mono text-sm text-indigo-300">
-            worker/index.ts
-          </code>
-          to change the name
         </p>
       </div>
 

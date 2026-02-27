@@ -8,7 +8,7 @@
   },
   "settings": {
     "better-tailwindcss": {
-      "entryPoint": "src/react-app/app/styles/index.css"
+      "entryPoint": "src/app/styles/index.css"
     }
   }
 }

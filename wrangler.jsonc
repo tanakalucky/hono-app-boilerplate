@@ -4,8 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hono-app-boilerplate",
-  "main": "./src/worker/index.ts",
+  "name": "app-boilerplate",
   "compatibility_date": "2025-04-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {

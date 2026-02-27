@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "ignorePatterns": [],
-  "experimentalTailwindcss": {
-    "stylesheet": "./src/react-app/app/styles/index.css",
+  "tailwindcss": {
+    "stylesheet": "./src/app/styles/index.css",
     "functions": ["cn", "clsx", "cva", "tw"]
   },
-  "experimentalSortImports": {},
-  "experimentalSortPackageJson": {
+  "sortImports": {},
+  "sortPackageJson": {
     "sortScripts": true
   },
   "embeddedLanguageFormatting": "auto"
