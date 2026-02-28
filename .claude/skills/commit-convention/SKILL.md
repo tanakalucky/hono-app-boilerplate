@@ -42,17 +42,9 @@ scopeは省略可能です。
 
 ### フロントエンド関連
 
-- **react-app**: Reactアプリケーション全般
-- **components**: コンポーネントの変更
-- **hooks**: カスタムフックの変更
+- **app**: Reactアプリケーション全般
 - **ui**: UIコンポーネント（shadcn/ui）の変更
 - **styles**: スタイリング関連
-
-### バックエンド関連
-
-- **worker**: Cloudflare Worker関連
-- **api**: APIエンドポイント関連
-- **routes**: ルーティング関連
 
 ### その他
 

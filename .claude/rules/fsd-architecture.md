@@ -1,10 +1,10 @@
 ---
-paths: src/react-app/**/*
+paths: src/**/*
 ---
 
 # Feature-Sliced Design (FSD) アーキテクチャルール
 
-このプロジェクトでは、フロントエンドコード（`src/react-app`）に Feature-Sliced Design (FSD) を採用しています。
+このプロジェクトでは、フロントエンドコードに Feature-Sliced Design (FSD) を採用しています。
 
 ## 概要
 
@@ -229,9 +229,9 @@ app → pages → widgets → features → entities → shared
 
 #### 設定されているエイリアス
 
-| エイリアス | パス              |
-| ---------- | ----------------- |
-| `@/*`      | `src/react-app/*` |
+| エイリアス | パス    |
+| ---------- | ------- |
+| `@/*`      | `src/*` |
 
 #### 使用例
 
@@ -311,7 +311,7 @@ import { UserAvatar } from "@/entities/user/@x/post";
 ## ディレクトリ構造の例
 
 ```
-src/react-app/
+src
 ├── app/
 │   ├── providers/
 │   │   └── index.tsx

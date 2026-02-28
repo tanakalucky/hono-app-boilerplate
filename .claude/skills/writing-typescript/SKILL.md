@@ -97,7 +97,7 @@ const ROLES = ["admin", "editor", "viewer"] as const;
 
 named export のみ使用。default export は禁止。
 
-フレームワーク（Next.js の page/layout 等）が要求する場合のみ default export を許容する。その場合も const で定義した上で export する。
+フレームワークが要求する場合のみ default export を許容する。その場合も const で定義した上で export する。
 
 ```typescript
 // ✅ named export
