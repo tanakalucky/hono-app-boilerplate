@@ -29,8 +29,8 @@ jobs:
           # Remove prefix before first / (e.g., feature/, renovate/, bugfix/)
           BRANCH_NAME=${BRANCH_NAME#*/}
           # Replace / with -, convert to lowercase, and truncate to 42 characters
-          # (63 char limit - 20 for "hono-app-boilerplate" - 1 for "-")
-          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-42)
+          # (63 char limit - 16 for "app-boilerplate" - 1 for "-")
+          SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g' | tr '[:upper:]' '[:lower:]' | cut -c 1-47)
           echo "sanitized=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
 
       - name: Deploy

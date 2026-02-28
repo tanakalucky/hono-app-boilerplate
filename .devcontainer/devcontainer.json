@@ -1,5 +1,5 @@
 {
-  "name": "hono-app-boilerplate",
+  "name": "app-boilerplate",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
@@ -9,10 +9,10 @@
   "forwardPorts": [5173, 8976],
   "remoteUser": "node",
   "mounts": [
-    "source=hono-app-boilerplate-bashhistory,target=/commandhistory,type=volume",
-    "source=hono-app-boilerplate-claude-code-config,target=/home/node/.claude,type=volume",
-    "source=hono-app-boilerplate-wrangler-config,target=/home/node/.config/.wrangler,type=volume",
-    "source=hono-app-boilerplate-gh-config,target=/home/node/.config/gh,type=volume"
+    "source=app-boilerplate-bashhistory,target=/commandhistory,type=volume",
+    "source=app-boilerplate-claude-code-config,target=/home/node/.claude,type=volume",
+    "source=app-boilerplate-wrangler-config,target=/home/node/.config/.wrangler,type=volume",
+    "source=app-boilerplate-gh-config,target=/home/node/.config/gh,type=volume"
   ],
   "remoteEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
