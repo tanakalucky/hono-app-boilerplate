@@ -53,4 +53,4 @@ jobs:
           wranglerVersion: "latest"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: versions upload --preview-alias ${{ steps.branch.outputs.sanitized }}
+          command: bun wrangler versions upload --preview-alias ${{ steps.branch.outputs.sanitized }}
