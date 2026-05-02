@@ -39,6 +39,13 @@ jobs:
         with:
           bun-version: "latest"
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -53,4 +60,4 @@ jobs:
           wranglerVersion: "latest"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: bun wrangler versions upload --preview-alias ${{ steps.branch.outputs.sanitized }}
+          command: versions upload --preview-alias ${{ steps.branch.outputs.sanitized }}
