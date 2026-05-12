@@ -48,7 +48,7 @@ jobs:
           DOTENV_PRIVATE_KEY_PROD: ${{ secrets.DOTENV_PRIVATE_KEY_PROD }}
 
       - name: Deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           wranglerVersion: "latest"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
