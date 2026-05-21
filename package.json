@@ -37,7 +37,7 @@
     "tailwindcss": "^4.3.0",
     "ts-pattern": "^5.9.0",
     "valibot": "^1.4.0",
-    "wouter": "^3.9.0"
+    "wouter": "^3.10.0"
   },
   "devDependencies": {
     "@clerk/testing": "^2.0.31",
