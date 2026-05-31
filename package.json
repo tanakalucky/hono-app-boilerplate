@@ -32,7 +32,7 @@
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "react-error-boundary": "^6.1.2",
-    "shadcn": "^4.8.3",
+    "shadcn": "^4.9.0",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
     "ts-pattern": "^5.9.0",
