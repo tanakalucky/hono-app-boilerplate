@@ -25,7 +25,7 @@
         "wouter": "^3.10.0",
       },
       "devDependencies": {
-        "@clerk/testing": "^2.0.35",
+        "@clerk/testing": "^2.0.36",
         "@cloudflare/vite-plugin": "^1.40.1",
         "@dotenvx/dotenvx": "^1.71.2",
         "@playwright/test": "^1.60.0",
@@ -116,13 +116,13 @@
 
     "@blazediff/core": ["@blazediff/core@1.9.1", "", {}, "sha512-ehg3jIkYKulZh+8om/O25vkvSsXXwC+skXmyA87FFx6A/45eqOkZsBltMw/TVteb0mloiGT8oGRTcjRAz66zaA=="],
 
-    "@clerk/backend": ["@clerk/backend@3.5.0", "", { "dependencies": { "@clerk/shared": "^4.15.0", "standardwebhooks": "^1.0.0", "tslib": "2.8.1" } }, "sha512-g1bjzqj7/mb6rnrQ5zr+ybjpilTIWADaCoHE1HnEAjQfbcdfn3gb9PPX0wJ1KWw8OOQEQYSjzXPzvofEB1j+ww=="],
+    "@clerk/backend": ["@clerk/backend@3.6.1", "", { "dependencies": { "@clerk/shared": "^4.17.0", "standardwebhooks": "^1.0.0", "tslib": "2.8.1" } }, "sha512-LkfekzF/0UMXacX+17xy3ExRraO0mm+thXejC8Q32gWHd1wLdxK3YXDsLDF00E1r1InWBKIt2ZOxs6hTwZPJjA=="],
 
     "@clerk/react": ["@clerk/react@6.7.3", "", { "dependencies": { "@clerk/shared": "^4.15.0", "tslib": "2.8.1" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" } }, "sha512-xdml8bFXbOQ/Egyp7iI1f0ksLjw5nYu2Db+mttHpJzet7PRXQ3jBEEc2c0AYhOJvIYxJifHGBsf75NM8SwlOag=="],
 
-    "@clerk/shared": ["@clerk/shared@4.15.0", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-uX8nfLb69m8mA6KWKWfuPSwoVNDRyUdufeCeTEZsdZxbRUsEYT/c0KWFN28IOQCtK09tpVtzrUHvW44v5Dc5OA=="],
+    "@clerk/shared": ["@clerk/shared@4.17.0", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-YeQ+6zDmqyor1mPHjZx18j+LssL6Pobvid8hb7HQMioSo8sGDBEVi/Z12bs+gUhe9KbdP+ygHsKOqqeGAPuPZA=="],
 
-    "@clerk/testing": ["@clerk/testing@2.0.35", "", { "dependencies": { "@clerk/backend": "^3.5.0", "@clerk/shared": "^4.15.0", "dotenv": "17.2.2" }, "peerDependencies": { "@playwright/test": "^1", "cypress": "^13 || ^14" }, "optionalPeers": ["@playwright/test", "cypress"] }, "sha512-VOSyWnmu2ldcUKboMZHDDNCFEFjXmrnbcrMoFb1kw1yAJejqfvIrVD06MJYiWWW9rWi0fWZWaMjwG7Lbm864YQ=="],
+    "@clerk/testing": ["@clerk/testing@2.1.0", "", { "dependencies": { "@clerk/backend": "^3.6.1", "@clerk/shared": "^4.17.0", "dotenv": "17.2.2" }, "peerDependencies": { "@playwright/test": "^1", "cypress": "^13 || ^14" }, "optionalPeers": ["@playwright/test", "cypress"] }, "sha512-aCCQczLw4YUr9ORCyst4aWJoy65u3bCrW1Q0egB9odiwa/TLB5Ccimn2E1Ra2WL3SWPoiK9Kfx7+4NYG0w9bUw=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.5.0", "", {}, "sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg=="],
 
@@ -1289,6 +1289,8 @@
     "zod-to-json-schema": ["zod-to-json-schema@3.25.2", "", { "peerDependencies": { "zod": "^3.25.28 || ^4" } }, "sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA=="],
 
     "@babel/generator/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
+
+    "@clerk/react/@clerk/shared": ["@clerk/shared@4.15.0", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-uX8nfLb69m8mA6KWKWfuPSwoVNDRyUdufeCeTEZsdZxbRUsEYT/c0KWFN28IOQCtK09tpVtzrUHvW44v5Dc5OA=="],
 
     "@dotenvx/dotenvx/dotenv": ["dotenv@17.4.2", "", {}, "sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw=="],
 
