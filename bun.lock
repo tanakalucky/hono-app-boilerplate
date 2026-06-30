@@ -25,7 +25,7 @@
         "wouter": "^3.10.0",
       },
       "devDependencies": {
-        "@clerk/testing": "^2.1.7",
+        "@clerk/testing": "^2.2.0",
         "@cloudflare/vite-plugin": "^1.42.3",
         "@dotenvx/dotenvx": "^1.75.1",
         "@playwright/test": "^1.61.1",
@@ -116,13 +116,13 @@
 
     "@blazediff/core": ["@blazediff/core@1.9.1", "", {}, "sha512-ehg3jIkYKulZh+8om/O25vkvSsXXwC+skXmyA87FFx6A/45eqOkZsBltMw/TVteb0mloiGT8oGRTcjRAz66zaA=="],
 
-    "@clerk/backend": ["@clerk/backend@3.8.4", "", { "dependencies": { "@clerk/shared": "^4.22.0", "standardwebhooks": "^1.0.0", "tslib": "2.8.1" } }, "sha512-3G+kEu8kalqQokJ/n0IynhBh2i6TtiilRzuAg5UWMburkK658/elrG0Uqsapd5yKhmkNuvizHwOPWwKAMxP2EQ=="],
+    "@clerk/backend": ["@clerk/backend@3.8.5", "", { "dependencies": { "@clerk/shared": "^4.22.1", "standardwebhooks": "^1.0.0", "tslib": "2.8.1" } }, "sha512-BcMp+hXKA4Tx0fWvGh23P2hgg+58SCTmkMJip93DL+lauUNbg1ExpKzzvfSpHFyhdZkQuf4irsDvSdmV+bDpBQ=="],
 
     "@clerk/react": ["@clerk/react@6.11.2", "", { "dependencies": { "@clerk/shared": "^4.22.1", "tslib": "2.8.1" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" } }, "sha512-f1kkxnJCyU/LSZaYQn/u3lpHGZYO3iDr/euVnuNFnnfknlMVIW0NcbPwsIsOf4B3/n+lH6mDEnHhfMh38WtH4g=="],
 
-    "@clerk/shared": ["@clerk/shared@4.22.0", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-GZ56kzUB2UBb8MCF+Eo8WIey+W4RP1tAkyOL+geiHxrQxJlUcgD+xalY2YPJLH8WVFwtOnfIl8KPEo0M0e/DRg=="],
+    "@clerk/shared": ["@clerk/shared@4.22.1", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-G7AaqgeE2rfnQzCg7V2fuHmprbt5FkMdqFBiNGUkg7yz+yjXfVjytic3TJENXI+FGK+r6vx8eTXVUIqDNQWq4g=="],
 
-    "@clerk/testing": ["@clerk/testing@2.1.7", "", { "dependencies": { "@clerk/backend": "^3.8.4", "@clerk/shared": "^4.22.0", "dotenv": "17.2.2" }, "peerDependencies": { "@playwright/test": "^1", "cypress": "^13 || ^14" }, "optionalPeers": ["@playwright/test", "cypress"] }, "sha512-MllJQ/3ooEkxvZ5eqJfrwD57/s7MY1VUD5R4XDRXVyaeK+dONG1gyybeZLaMtDUJmofyloiWE3tGxqLn4qwFjw=="],
+    "@clerk/testing": ["@clerk/testing@2.2.0", "", { "dependencies": { "@clerk/backend": "^3.8.5", "@clerk/shared": "^4.22.1", "dotenv": "17.2.2" }, "peerDependencies": { "@playwright/test": "^1", "cypress": "^13 || ^14 || ^15" }, "optionalPeers": ["@playwright/test", "cypress"] }, "sha512-33MibPgx8mRm1JQyraQ/fRNAurOhGSHPGByLDN5Q79de4U93PSx7ncFDDQQS05Ac2E3p3sZrBZvF4KBCDCOe8Q=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.5.0", "", {}, "sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg=="],
 
@@ -1219,8 +1219,6 @@
     "@babel/helper-compilation-targets/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "@babel/helper-create-class-features-plugin/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
-
-    "@clerk/react/@clerk/shared": ["@clerk/shared@4.22.1", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-G7AaqgeE2rfnQzCg7V2fuHmprbt5FkMdqFBiNGUkg7yz+yjXfVjytic3TJENXI+FGK+r6vx8eTXVUIqDNQWq4g=="],
 
     "@dotenvx/dotenvx/dotenv": ["dotenv@17.4.2", "", {}, "sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw=="],
 
