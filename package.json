@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
-    "@clerk/react": "^6.11.4",
+    "@clerk/react": "^6.12.0",
     "@fontsource-variable/noto-sans": "^5.2.10",
     "@tailwindcss/vite": "^4.3.2",
     "class-variance-authority": "^0.7.1",
