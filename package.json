@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@clerk/testing": "^2.2.6",
-    "@cloudflare/vite-plugin": "^1.43.2",
+    "@cloudflare/vite-plugin": "^1.44.0",
     "@dotenvx/dotenvx": "^2.3.4",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
@@ -62,7 +62,7 @@
     "vite": "8.1.4",
     "vitest": "^4.1.10",
     "vitest-browser-react": "^2.2.0",
-    "wrangler": "^4.108.0"
+    "wrangler": "^4.110.0"
   },
   "cloudflare": {
     "label": "App Boilerplate",
