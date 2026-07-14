@@ -40,7 +40,7 @@
     "wouter": "^3.10.0"
   },
   "devDependencies": {
-    "@clerk/testing": "^2.2.7",
+    "@clerk/testing": "^2.2.8",
     "@cloudflare/vite-plugin": "^1.44.0",
     "@dotenvx/dotenvx": "^2.7.3",
     "@playwright/test": "^1.61.1",
