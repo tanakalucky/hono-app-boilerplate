@@ -27,7 +27,7 @@
       "devDependencies": {
         "@clerk/testing": "^2.2.10",
         "@cloudflare/vite-plugin": "^1.45.1",
-        "@dotenvx/dotenvx": "^2.14.0",
+        "@dotenvx/dotenvx": "^2.15.1",
         "@playwright/test": "^1.61.1",
         "@types/node": "^26.1.1",
         "@types/react": "19.2.17",
@@ -142,7 +142,7 @@
 
     "@cspotcode/source-map-support": ["@cspotcode/source-map-support@0.8.1", "", { "dependencies": { "@jridgewell/trace-mapping": "0.3.9" } }, "sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw=="],
 
-    "@dotenvx/dotenvx": ["@dotenvx/dotenvx@2.14.0", "", { "dependencies": { "@dotenvx/primitives": "^2.1.0", "@dotenvx/tooling": "^1.0.2", "yocto-spinner": "^1.2.1" }, "bin": { "dotenvx": "src/cli/dotenvx.js" } }, "sha512-cNXKhPSSwl5H8udv31bLnBz8SW/R/9Ijbi96rUIovmG62i8B5zcp9IvWY3tAe/i4IPZaROGaJNZIsOD8OuUR2g=="],
+    "@dotenvx/dotenvx": ["@dotenvx/dotenvx@2.15.1", "", { "dependencies": { "@dotenvx/primitives": "^2.1.0", "@dotenvx/tooling": "^1.0.2", "yocto-spinner": "^1.2.1" }, "bin": { "dotenvx": "src/cli/dotenvx.js" } }, "sha512-t5eUkF4HV5qMAY+lg2ZYzPhso5i8EJHPvYKkzot0R4V08ivMs/w4HVe95bR9U2AGTTlSU5AA141mA6dRYRrn6g=="],
 
     "@dotenvx/primitives": ["@dotenvx/primitives@2.1.0", "", {}, "sha512-GIpMSSgjZk4URRCtAw12vBmobnw3VeSKL+p7/y8ypWvTHFW+StAMZvq4wCjdX+QKuw4alXu0IMGW6QPhKo6ufg=="],
 
