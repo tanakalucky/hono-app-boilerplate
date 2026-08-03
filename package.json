@@ -53,7 +53,7 @@
     "@vitest/ui": "^4.1.10",
     "eslint-plugin-better-tailwindcss": "^4.7.0",
     "lefthook": "^2.1.10",
-    "oxfmt": "^0.61.0",
+    "oxfmt": "^0.62.0",
     "oxlint": "^1.76.0",
     "oxlint-tsgolint": "^7.0.2001",
     "playwright": "^1.62.1",
