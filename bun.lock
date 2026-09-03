@@ -6,7 +6,7 @@
       "name": "app-boilerplate",
       "dependencies": {
         "@base-ui/react": "^1.7.0",
-        "@clerk/react": "^6.15.0",
+        "@clerk/react": "^6.15.1",
         "@fontsource-variable/noto-sans": "^5.3.0",
         "@tailwindcss/vite": "^4.3.3",
         "class-variance-authority": "^0.7.1",
@@ -118,7 +118,7 @@
 
     "@clerk/backend": ["@clerk/backend@3.17.1", "", { "dependencies": { "@clerk/shared": "^4.31.0", "standardwebhooks": "^1.0.0", "tslib": "2.8.1" } }, "sha512-HDBknkYVTMknYsRNHeI0lUE+e4QfOty/LDzWKpbnaaKJUMzHZDUcVo9RQnLdg18XvhaBN7z1OoRiphJ82nimRA=="],
 
-    "@clerk/react": ["@clerk/react@6.15.0", "", { "dependencies": { "@clerk/shared": "^4.31.0", "tslib": "2.8.1" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" } }, "sha512-IOJmbf4wPqkR2sa9zmhChJ9pLOYY6H6zNjeOra0n+/f3G1FoZ7hayaQybzG52O11Lk/VJSUsLL+3beO7P0P2qg=="],
+    "@clerk/react": ["@clerk/react@6.15.1", "", { "dependencies": { "@clerk/shared": "^4.31.0", "tslib": "2.8.1" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" } }, "sha512-zzlLSjsSls+hH4qU6OX+vPeQizroSGo5xzWe5Ez2O6phwjgN+3a2x8ifevjwbbLRKVU86q+LoLMoctZT3eH5zQ=="],
 
     "@clerk/shared": ["@clerk/shared@4.31.0", "", { "dependencies": { "@tanstack/query-core": "^5.100.6", "dequal": "2.0.3", "glob-to-regexp": "0.4.1", "js-cookie": "3.0.7" }, "peerDependencies": { "react": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0", "react-dom": "^18.0.0 || ~19.0.3 || ~19.1.4 || ~19.2.3 || ~19.3.0-0" }, "optionalPeers": ["react", "react-dom"] }, "sha512-jw7J8dmdcXzeGHFAaMA92r04Ej1eVhAeHlcF2XuCKU+teGt3SV4yc2I0eWSqoLmsYpzgBgA66SJ6lLk22R2+fQ=="],
 
