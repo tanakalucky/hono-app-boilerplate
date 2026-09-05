@@ -119,7 +119,7 @@ describe("TodoItem", () => {
       });
 
       const errorText = screen.getByRole("alert");
-      expect(errorText).toHaveTextContent(/保存に失敗しました/i);
+      expect(errorText).toHaveTextContent("保存に失敗しました");
 
       expect(screen.getByRole("paragraph")).not.toBeInTheDocument();
     });
@@ -171,7 +171,7 @@ describe("TodoItem", () => {
       // Assert
       const errorText = screen.getByRole("alert");
 
-      expect(errorText).toHaveTextContent(/削除に失敗しました/i);
+      expect(errorText).toHaveTextContent("削除に失敗しました");
 
       expect(mockDeleteTodo).toHaveBeenCalledWith({
         todoId: "test-id",
